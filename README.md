@@ -48,13 +48,14 @@ At the core of skypunch are the database tables which the skypunch daeamon uses 
 
 
 Running Skypunch
-
 ----------------
 
 In order to run skypunch, you will need to install the code and prerequisite libraries.
  The following instructions define how to run everything on a single system including mysql on the same system. These instructions can be modified as needed for other setups. These instructions assume a linux Ubuntu system but can be changed to run on other systems. The real prerequisites are Python and MySQL.
 
     1. Install and setup mysql
+    sudo apt-get install mysql-server
+    Note! the default skypunch.config file defines the mysql connection parameters including user & password ( default is root:root ).
     
     2. Install Python
 
