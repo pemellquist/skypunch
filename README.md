@@ -47,17 +47,20 @@ At the core of skypunch are the database tables which the skypunch daeamon uses 
     2. Notification specific parameters ( email address and parameters) 
 
 
-Running Skypunch
+Installing Skypunch
 ----------------
 
 In order to run skypunch, you will need to install the code and prerequisite libraries.
  The following instructions define how to run everything on a single system including mysql on the same system. These instructions can be modified as needed for other setups. These instructions assume a linux Ubuntu system but can be changed to run on other systems. The real prerequisites are Python and MySQL.
 
     1. Install and setup mysql
-    sudo apt-get install mysql-server
-    Note! the default skypunch.config file defines the mysql connection parameters including user & password ( default is root:root ).
+    'sudo apt-get install mysql-server'
+    Note! the default skypunch.config file defines the mysql connection parameters 
+    including user & password ( default is root:root ).
     
-    2. Install Python
+    2. Install Python 
+    The current code has been tested on Python 2.7.3.
+    'sudo apt-get install python'    
 
     3. Install skypunch from github
 
