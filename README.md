@@ -64,7 +64,7 @@ In order to run skypunch, you will need to install the code and prerequisite lib
 
     3. Install skypunch from github
     The current packaging is full source code.
-    git clone https://github.com/pemellquist/skypunch.git <your directory>
+    git clone https://github.com/pemellquist/skypunch.git your_skypunch_directory
 
     4. Install dependent libraries
     sudo apt-get install python-pip python-dev build-essential
@@ -74,6 +74,8 @@ In order to run skypunch, you will need to install the code and prerequisite lib
     sudo pip install mysql-connector-python
 
     5. Load skypunch SQL schema into mySQL
+    Loading the skypunch schema into mysql will allow defining targets and notifiers.
+    mysql -u youruser -p < your_skypunch_directory/sql/skpunch.sql 
 
     6. Define targets and notifiers
 
