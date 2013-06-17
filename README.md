@@ -47,6 +47,28 @@ At the core of skypunch are the database tables which the skypunch daeamon uses 
     2. Notification specific parameters ( email address and parameters) 
 
 
+Running Skypunch
+
+----------------
+
+In order to run skypunch, you will need to install the code and prerequisite libraries.
+ The following instructions define how to run everything on a single system including mysql on the same system. These instructions can be modified as needed for other setups. These instructions assume a linux Ubuntu system but can be changed to run on other systems. The real prerequisites are Python and MySQL.
+
+    1. Install and setup mysql
+    
+    2. Install Python
+
+    3. Install skypunch from github
+
+    4. Install dependent libraries
+
+    5. Load skypunch SQL schema
+
+    6. Define targets and notifiers
+
+    7. Run, verify and test
+
+
 
 
 Instructions
