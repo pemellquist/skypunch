@@ -11,6 +11,7 @@ Skypunch runs a system daemon using an SQL database for the definition of 'targe
 
     Skypunch is made up of the following main areas:
     1) Python based monitoring code.
+    Skypunch is implemented in Python and uses a number of Python libraries inclusing sqlalchemy for mysql access.
     2) MySQL datbase for defined 'targets' and 'notifiers'.
     3) Configuration file for main runtime configuration.
     4) Log file for run time information of each monitoring request.
