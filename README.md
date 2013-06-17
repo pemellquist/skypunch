@@ -5,10 +5,15 @@ Background
 ----------
 Skypunch is a service monitoring system which allows monitoring of cloud services for their availability and uptime. Skypunch can be configured to monitor any REST service and inform a user to the availability, or lack of, based on configurable notification parameters.  Skypunch supports the ability to access a REST service using various HTTP authentication methods including the usage of Openstack Keystone authentication tokens.
 
+Design
+------
+Skypunch runs a system daemon using an SQL database for the definition of 'targets' to be monitored. Each target defined will be monitored at the defined REST URL and method at the defined frequency. As each target is monitored, skypunch will 1: log the result details to a log file 2: update the SQL database with the results and 3: inform a configurable user on the occurrence of an error or recovery.
+
 
 Instructions
 ============
 1) Getting code
+
 git clone https://github.com/pemellquist/skypunch.git <your directory>
 
 
