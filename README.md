@@ -54,44 +54,114 @@ In order to run skypunch, you will need to install the code and prerequisite lib
  The following instructions define how to run everything on a single system including mysql on the same system. These instructions can be modified as needed for other setups. These instructions assume a linux Ubuntu system but can be changed to run on other systems. The real prerequisites are Python and MySQL.
 
     1. Install and setup mysql
-    sudo apt-get install mysql-server
     Note! the default skypunch.config file defines the mysql connection parameters 
     including user & password ( default is root:root ).
+
+    $sudo apt-get install mysql-server
     
     2. Install Python 
     The current code has been tested on Python 2.7.3.
-    sudo apt-get install python    
+    
+    $sudo apt-get install python    
 
     3. Install skypunch from github
     The current packaging is full source code.
-    git clone https://github.com/pemellquist/skypunch.git your_skypunch_directory
+    
+    $git clone https://github.com/pemellquist/skypunch.git your_skypunch_directory
 
     4. Install dependent libraries
-    sudo apt-get install python-pip python-dev build-essential
-    sudo pip install python-daemon
-    sudo apt-get install mysql-server
-    sudo pip install SQLAlchemy
-    sudo pip install mysql-connector-python
+    
+    $sudo apt-get install python-pip python-dev build-essential
+    
+    $sudo pip install python-daemon
+    
+    $sudo apt-get install mysql-server
+    
+    $sudo pip install SQLAlchemy
+    
+    $sudo pip install mysql-connector-python
 
     5. Load skypunch SQL schema into mySQL
     Loading the skypunch schema into mysql will allow defining targets and notifiers.
-    mysql -u youruser -p < your_skypunch_directory/sql/skpunch.sql 
+    
+    $mysql -u youruser -p < your_skypunch_directory/sql/skpunch.sql 
 
     6. Define targets and notifiers
+    Targets and notifiers can be defined in a provided config file and loaded into the
+    database. An example file is provided and can be changed as needed.
+    
+    $mysql -u youruser -p < your_skypunch_directory/sql/data.sql
 
     7. Run, verify and test
+    Run skypunch and verify that things are working by using the CLI to list out targets.
+    Look at the log file to see how the monitoring is working. Try some tests to see if
+    the email notifier is working.
 
+    list skypunch options
+    $ python your_skypunch_directory/skypunch.py
+    usage: skypunch start | stop | list
 
+    start skypunch
+    $python your_skypunch_directory/skypunch.py start
+    started with pid 8100
+    starting skypunch ....
 
+    list currently loaded targets
+    $python your_skypunch_directory/skypunch.py list 
+    +----+----------------------------+--------+---------------------+
+    | ID | Name                       | Status | LastUpdated         |
+    +----+----------------------------+--------+---------------------+
+    | 1  | Google home page           | PASS   | 2013-06-17 23:06:13 |
+    | 2  | HP home page               | PASS   | 2013-06-17 23:06:13 |
+    | 3  | GitHub LBaaS               | PASS   | 2013-06-17 23:06:13 |
+    | 4  | GitHub LBaaS (bad)         | FAIL   | 2013-06-17 23:06:12 |
+    | 5  | GitHub LBaaS (basic authn) | PASS   | 2013-06-17 23:06:12 |
+    | 6  | HPCS LBaaS Service         | PASS   | 2013-06-17 23:06:13 |
+    | 7  | Localhost nginx test       | FAIL   | 2013-06-17 23:06:13 |
+    +----+----------------------------+--------+---------------------+
 
-
-
-sudo apt-get install python-pip python-dev build-essential
-sudo pip install python-daemon
-sudo apt-get install mysql-server
-sudo pip install SQLAlchemy
-sudo pip install mysql-connector-python
-tail -f skypunch.log | ccze -A
+    list details about a specific target
+    $python skypunch/skypunch.py list 1
+    +---------------------+-----------------------+
+    | ID                  | 1                     |
+    +---------------------+-----------------------+
+    | Name                | Google home page      |
+    +---------------------+-----------------------+
+    | Status              | PASS                  |
+    +---------------------+-----------------------+
+    | Status Description  | OK                    |
+    +---------------------+-----------------------+
+    | Last Updated        | 2013-06-17 23:06:55   |
+    +---------------------+-----------------------+
+    | Target URL          | http://www.google.com |
+    +---------------------+-----------------------+
+    | Target Method       | GET                   |
+    +---------------------+-----------------------+
+    | Authentication      | NONE                  |
+    +---------------------+-----------------------+
+    | Expected Value      | 200                   |
+    +---------------------+-----------------------+
+    | Frequency (sec)     | 10                    |
+    +---------------------+-----------------------+
+    | Timeout (sec)       | 10                    |
+    +---------------------+-----------------------+
+    | Pass Count          | 7900                  |
+    +---------------------+-----------------------+
+    | Fail Count          | 0                     |
+    +---------------------+-----------------------+
+    | 200 Status Count    | 7900                  |
+    +---------------------+-----------------------+
+    | 300 Status Count    | 0                     |
+    +---------------------+-----------------------+
+    | 400 Status Count    | 0                     |
+    +---------------------+-----------------------+
+    | 500 Status Count    | 0                     |
+    +---------------------+-----------------------+
+    | Network Fail Count  | 0                     |
+    +---------------------+-----------------------+
+    | Repeated Fail Count | 0                     |
+    +---------------------+-----------------------+
+ 
 
 
 Error cases:
