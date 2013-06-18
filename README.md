@@ -173,10 +173,11 @@ In order to run skypunch, you will need to install the code and prerequisite lib
     2013-06-18 04:07:53,413 INFO  [3] GitHub LBaaS                   GET https://github.com/LBaaS PASS (OK)
 
 
-Error cases:
-Unable to connect to target
-Wrong response from target
-invalid authn params for BASIC
-involve authn param for Keystone
-Keystone authn failure
+Testing and Error Cases Covered:
+--------------------------------
+1. Unable to connect to target
+2. Wrong response from target
+3. Invalid authn params for BASIC
+4. Invalid authn param for Keystone
+5. Invalid Keystone authn failure
 
