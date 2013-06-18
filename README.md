@@ -162,6 +162,15 @@ In order to run skypunch, you will need to install the code and prerequisite lib
     | Repeated Fail Count | 0                     |
     +---------------------+-----------------------+
  
+    tailing the log file shows current monitoring
+    tail -f skypunch.log
+    2013-06-18 04:07:52,071 ERROR [4] GitHub LBaaS (bad)             GET https://www.ggithub.com/LBaaS FAIL (network error to target)
+    2013-06-18 04:07:52,432 INFO  [5] GitHub LBaaS (basic authn)     GET https://github.com/LBaaS PASS (OK)
+    2013-06-18 04:07:52,546 INFO  [6] HPCS LBaaS Service             GET https://region-a.geo-1.lbaas.hpcloudsvc.com/v1.1 PASS (OK)
+    2013-06-18 04:07:52,564 INFO  [7] Localhost nginx test           GET http://localhost PASS (OK)
+    2013-06-18 04:07:52,903 INFO  [1] Google home page               GET http://www.google.com PASS (OK)
+    2013-06-18 04:07:53,064 INFO  [2] HP home page                   GET http://www.hp.com PASS (OK)
+    2013-06-18 04:07:53,413 INFO  [3] GitHub LBaaS                   GET https://github.com/LBaaS PASS (OK)
 
 
 Error cases:
