@@ -55,7 +55,7 @@ Each row within the notifier table defines someone, or system, to be notified up
 * Notification specific parameters (email address and parameters) 
 
 
-Installing and Running Skypunch
+Installing Skypunch (For Dev and Ops)
 -------------------------------
 
 In order to run skypunch, you will need to install the code and prerequisite libraries.
@@ -90,16 +90,24 @@ The current packaging is full source code.<br>
 *$sudo pip install mysql-connector-python*<br>
 
 
-    5. Load skypunch SQL schema into mySQL
-    Loading the skypunch schema into mysql will allow defining targets and notifiers.
+**5 - Load skypunch SQL schema into mySQL**
+Loading the skypunch schema into mysql will allow defining targets and notifiers.<br>
     
-    $mysql -u youruser -p < your_skypunch_directory/sql/skpunch.sql 
+*$mysql -u youruser -p < your_skypunch_directory/sql/skpunch.sql* <br>
 
-    6. Define targets and notifiers
-    Targets and notifiers can be defined in a provided config file and loaded into the
-    database. An example file is provided and can be changed as needed.
+After doing this step you may also go into mysql and poke around. You should be able to see the
+skypunch database and two tables ( use skypunch; describe targets; describe notifiers; )
+
+
+**6 - Define targets and notifiers**
+Targets and notifiers can be defined in a provided config file and loaded into the
+database. An example file is provided and can be changed as needed.
     
-    $mysql -u youruser -p < your_skypunch_directory/sql/data.sql
+*$mysql -u youruser -p < your_skypunch_directory/sql/data.sql*
+
+
+Running Skypunch
+----------------
 
     7. Run, verify and test
     Run skypunch and verify that things are working by using the CLI to list out targets.
