@@ -176,9 +176,11 @@ In order to run skypunch, you will need to install the code and prerequisite lib
 Testing and Error Cases Covered
 --------------------------------
 1. Unable to connect to target
-<p>In the event the skypunch daemon cannot reach the target and connect, a network error will be generated. All notifiers will be informed.
+<p>In the event the skypunch daemon cannot reach the target and connect, a network error will be generated and target will be put in FAIL status. All notifiers will be informed.
 2. Wrong response from target
+<p>The target is required to respond with the same response code in the target definition ( e.g. a target with a 200 respond should respond with a 200 for success). If the response does not match, the target status will be FAIL and all notifiers will be informed.
 3. Invalid authn params for BASIC
+<p>When defining the authn type as BASIC the target definition must have a 'user' and 'password' defined. Failing to do so will result in an error.
 4. Invalid authn param for Keystone
 5. Invalid Keystone authn failure
 
