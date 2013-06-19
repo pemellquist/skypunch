@@ -9,9 +9,9 @@ Design
 ------
 Skypunch runs as a system daemon using an SQL database for the definition of 'targets' to be monitored. Each target defined will be monitored at the defined REST URL and method at the defined frequency. As each target is monitored, skypunch will log the result details to a log file ,update the SQL database with the results and inform a configurable user on the occurrence of an error or recovery.
 
-Skypunch is comprised of the following main areas:
-**Python based monitoring code.**
-Skypunch is implemented in Python and uses a number of Python libraries including sqlalchemy for mysql access.
+Skypunch is comprised of the following main areas:<br>
+**Python based monitoring code.**<br>
+Skypunch is implemented in Python and uses a number of Python libraries including sqlalchemy for mysql access.<br>
 **MySQL database for defined 'targets' and 'notifiers'**
 SQL table schemas for the definition of targets to be monitored and users to be notified are defined in a mysql database. 
 The most recent monitored status is also updated to the target database for each target.
