@@ -31,27 +31,28 @@ A CLI allows inspecting the current status of each monitored target.<br>
 
 Skypunch Database
 -----------------
-At the core of skypunch are the database tables which the skypunch daeamon uses to monitor targets and inform notifiers. The details for these tables can be found in skypunch.sql.
+At the core of skypunch are the database tables which the skypunch daeamon uses to monitor targets and inform notifiers. 
+The details for these tables can be found in *skypunch.sql* <br><br>
 
-    Target Table
-    Each row in the table defines details of how to monitor each target including:
-    1. URL of system to be monitored 
-    2. HTTP Method to use
-    3. The type of HTTP authentication to use ( NONE, BASIC, OPENSTACK )
-    4. The frequency of monitoring  ( as frequent as once a second )
-    5. A timeout to fail on 
-    6. The expected result for 'success'
+**targets Table** <br>
+Each row in the table defines details of how to monitor each target including:
+1. URL of system to be monitored 
+2. HTTP Method to use
+3. The type of HTTP authentication to use ( NONE, BASIC, OPENSTACK )
+4. The frequency of monitoring  ( as frequent as once a second )
+5. A timeout to fail on 
+6. The expected result for 'success'
     
-    Each row in the table also defines results for monitoring of each target
-    1. The last last status (PASS, FAIL)
-    2. Timestamp of last monitor
-    3. A detailed description of a failure
-    4. statistics on success and failures
+Each row in the table also defines results for monitoring of each target
+1. The last last status (PASS, FAIL)
+2. Timestamp of last monitor
+3. A detailed description of a failure
+4. statistics on success and failures
 
-    Notifier Table
-    Each row within the notifier table defines someone, or system, to be notified upon a failure or success.
-    1. The type of notification ( SMTP, Tweet, etc )
-    2. Notification specific parameters ( email address and parameters) 
+**notifiers Table** <br>
+Each row within the notifier table defines someone, or system, to be notified upon a failure or success.
+1. The type of notification ( SMTP, Tweet, etc )
+2. Notification specific parameters ( email address and parameters) 
 
 
 Installing and Running Skypunch
