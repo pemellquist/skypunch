@@ -139,8 +139,10 @@ starting skypunch ....<br>
     | 7  | Localhost nginx test       | FAIL   | 2013-06-17 23:06:13 |
     +----+----------------------------+--------+---------------------+
 
-**4 - list details about a specific target**
-    $python skypunch/skypunch.py list 1
+**4 - list details about a specific target**<br>
+
+*$python skypunch/skypunch.py list 1*
+
     +---------------------+-----------------------+
     | ID                  | 1                     |
     +---------------------+-----------------------+
@@ -181,8 +183,10 @@ starting skypunch ....<br>
     | Repeated Fail Count | 0                     |
     +---------------------+-----------------------+
  
-**5 - tailing the log file shows current monitoring**
-    tail -f skypunch.log
+**5 - tailing the log file shows current monitoring**<br>
+
+*$tail -f skypunch.log*
+
     2013-06-18 04:07:52,071 ERROR [4] GitHub LBaaS (bad)             GET https://www.ggithub.com/LBaaS FAIL (network error to target)
     2013-06-18 04:07:52,432 INFO  [5] GitHub LBaaS (basic authn)     GET https://github.com/LBaaS PASS (OK)
     2013-06-18 04:07:52,546 INFO  [6] HPCS LBaaS Service             GET https://region-a.geo-1.lbaas.hpcloudsvc.com/v1.1 PASS (OK)
