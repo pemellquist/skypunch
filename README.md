@@ -55,7 +55,7 @@ Each row within the notifier table defines someone, or system, to be notified up
 * Notification specific parameters (email address and parameters) 
 
 
-Installing Skypunch (For Dev and Ops)
+Installing Skypunch (for dev and ops)
 -------------------------------
 
 In order to run skypunch, you will need to install the code and prerequisite libraries.
@@ -109,21 +109,17 @@ database. An example file is provided and can be changed as needed.
 Running Skypunch
 ----------------
 
-    7. Run, verify and test
-    Run skypunch and verify that things are working by using the CLI to list out targets.
-    Look at the log file to see how the monitoring is working. Try some tests to see if
-    the email notifier is working.
 
-    list skypunch options
-    $ python your_skypunch_directory/skypunch.py
+**1 - list skypunch options**
+    $python your_skypunch_directory/skypunch.py
     usage: skypunch start | stop | list
 
-    start skypunch
+**2 - start skypunch**
     $python your_skypunch_directory/skypunch.py start
     started with pid 8100
     starting skypunch ....
 
-    list currently loaded targets
+**3 - list currently loaded targets**
     $python your_skypunch_directory/skypunch.py list 
     +----+----------------------------+--------+---------------------+
     | ID | Name                       | Status | LastUpdated         |
@@ -137,7 +133,7 @@ Running Skypunch
     | 7  | Localhost nginx test       | FAIL   | 2013-06-17 23:06:13 |
     +----+----------------------------+--------+---------------------+
 
-    list details about a specific target
+**4 - list details about a specific target**
     $python skypunch/skypunch.py list 1
     +---------------------+-----------------------+
     | ID                  | 1                     |
@@ -179,7 +175,7 @@ Running Skypunch
     | Repeated Fail Count | 0                     |
     +---------------------+-----------------------+
  
-    tailing the log file shows current monitoring
+**5 - tailing the log file shows current monitoring**
     tail -f skypunch.log
     2013-06-18 04:07:52,071 ERROR [4] GitHub LBaaS (bad)             GET https://www.ggithub.com/LBaaS FAIL (network error to target)
     2013-06-18 04:07:52,432 INFO  [5] GitHub LBaaS (basic authn)     GET https://github.com/LBaaS PASS (OK)
