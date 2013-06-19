@@ -103,7 +103,7 @@ skypunch database and two tables ( use skypunch; describe targets; describe noti
 **6 - Define targets and notifiers**<br>
 
 Targets and notifiers can be defined in a provided config file and loaded into the
-database. An example file is provided and can be changed as needed.
+database. An example file is provided, *data.sql*, and can be changed as needed.
     
 *$mysql -u youruser -p < your_skypunch_directory/sql/data.sql*
 
@@ -112,16 +112,17 @@ Running Skypunch
 ----------------
 
 
-**1 - list skypunch options**
-$python your_skypunch_directory/skypunch.py<br>
+**1 - list skypunch options**<br>
+
+*$python your_skypunch_directory/skypunch.py*<br>
 usage: skypunch start | stop | list<br>
 
-**2 - start skypunch**
+**2 - start skypunch**<br>
 *$python your_skypunch_directory/skypunch.py start*
 started with pid 8100<br>
 starting skypunch ....<br>
 
-**3 - list currently loaded targets**
+**3 - list currently loaded targets**<br>
 *$python your_skypunch_directory/skypunch.py list*
     +----+----------------------------+--------+---------------------+
     | ID | Name                       | Status | LastUpdated         |
