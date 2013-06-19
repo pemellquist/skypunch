@@ -118,12 +118,15 @@ Running Skypunch
 usage: skypunch start | stop | list<br>
 
 **2 - start skypunch**<br>
+
 *$python your_skypunch_directory/skypunch.py start*
 started with pid 8100<br>
 starting skypunch ....<br>
 
 **3 - list currently loaded targets**<br>
+
 *$python your_skypunch_directory/skypunch.py list*
+
     +----+----------------------------+--------+---------------------+
     | ID | Name                       | Status | LastUpdated         |
     +----+----------------------------+--------+---------------------+
