@@ -61,33 +61,34 @@ Installing and Running Skypunch
 In order to run skypunch, you will need to install the code and prerequisite libraries.
 The following instructions define how to install everything on a single system. These instructions can be modified as needed for other setups. These instructions assume a linux Ubuntu system but can be changed to run on other operating systems. 
 
-**1-Install and setup mysql**<br>
+**1 - Install and setup mysql**<br>
 Note! the default skypunch.config file defines the mysql connection parameters 
 including user, password and mysql server address. The default assumes root:root and localhost, change as needed. <br>
 
 *$sudo apt-get install mysql-server*
     
-**2-Install Python**<br>
+**2 - Install Python**<br>
 The current code has been tested on Python 2.7.3.<br>
     
 *$sudo apt-get install python*    
 
-**3-Install skypunch from github**
+**3 - Install skypunch from github**
 The current packaging is full source code.<br>
     
 *$git clone https://github.com/pemellquist/skypunch.git your_skypunch_directory*
 
-    4. Install dependent libraries
+**4 - Install dependent libraries**
     
-    $sudo apt-get install python-pip python-dev build-essential
+*$sudo apt-get install python-pip python-dev build-essential*<br>
     
-    $sudo pip install python-daemon
+*$sudo pip install python-daemon*<br>
     
-    $sudo apt-get install mysql-server
+*$sudo apt-get install mysql-server*<br>
     
-    $sudo pip install SQLAlchemy
+*$sudo pip install SQLAlchemy*<br>
     
-    $sudo pip install mysql-connector-python
+*$sudo pip install mysql-connector-python*<br>
+
 
     5. Load skypunch SQL schema into mySQL
     Loading the skypunch schema into mysql will allow defining targets and notifiers.
