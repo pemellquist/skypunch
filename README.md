@@ -111,8 +111,8 @@ Running Skypunch
 
 
 **1 - list skypunch options**
-    $python your_skypunch_directory/skypunch.py
-    usage: skypunch start | stop | list
+$python your_skypunch_directory/skypunch.py<br>
+usage: skypunch start | stop | list<br>
 
 **2 - start skypunch**
 *$python your_skypunch_directory/skypunch.py start*
