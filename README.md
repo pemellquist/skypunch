@@ -110,7 +110,7 @@ Running Skypunch
 ----------------
 
 
-**1 - list skypunch options**<br>
+**1 - list skypunch options**
     $python your_skypunch_directory/skypunch.py
     usage: skypunch start | stop | list
 
@@ -120,7 +120,7 @@ started with pid 8100<br>
 starting skypunch ....<br>
 
 **3 - list currently loaded targets**
-    $python your_skypunch_directory/skypunch.py list 
+*$python your_skypunch_directory/skypunch.py list*
     +----+----------------------------+--------+---------------------+
     | ID | Name                       | Status | LastUpdated         |
     +----+----------------------------+--------+---------------------+
