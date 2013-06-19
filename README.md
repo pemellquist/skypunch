@@ -3,56 +3,58 @@ Skypunch
 
 Background
 ----------
-Skypunch is a service monitoring program which allows monitoring of cloud services for their availability and uptime. Skypunch can be configured to monitor any REST service and inform a user to the availability, or lack of, based on configurable notification parameters.  Skypunch supports the ability to access a REST service using various HTTP(S) authentication methods including the usage of Openstack Keystone authentication tokens.
+Skypunch is a service monitoring service which allows for the monitoring of cloud services for their availability and uptime. Skypunch can be configured to monitor any REST service and inform a user to the availability, or lack of, based on configurable notification parameters.  Skypunch supports the ability to access any REST service using various HTTP(S) authentication methods including the usage of Openstack Keystone authentication tokens.
+
 
 Design
 ------
-Skypunch runs as a system daemon using an SQL database for the definition of 'targets' to be monitored. Each target defined will be monitored at the defined REST URL and method at the defined frequency. As each target is monitored, skypunch will log the result details to a log file ,update the SQL database with the results and inform a configurable user on the occurrence of an error or recovery.
+Skypunch runs as a system daemon using an SQL database for the definition of 'targets' to be monitored. Each target defined will be monitored at the defined REST URL and frequency. As each target is monitored, skypunch will log the result details to a log file ,update the SQL database with the results and inform a configurable user on the occurrence of an error or recovery.
 
-Skypunch is comprised of the following main areas:<br><br>
+Skypunch is comprised of the following main:<br><br>
 **Python based monitoring code**<br>
 Skypunch is implemented in Python and uses a number of Python libraries including sqlalchemy for mysql access.<br>
 
 **MySQL database for defined 'targets' and 'notifiers'**<br>
-SQL table schemas for the definition of targets to be monitored and users to be notified are defined in a mysql database.
-The most recent monitored status is also updated to the target database for each target.<br>
+SQL tables for targets to be monitored and users to be notified are defined within the mysql database.
+The most recent monitored status and empirical statistics are updated with each target request.<br>
 
 **Configuration file for main runtime configuration**<br>
-A config file allows for global run time settings.<br>
+A configuration file allows for global run time settings.<br>
 
 **Log file for run time information**<br>
-A log file captures all monitored call details.<br>
+A log file captures all request details.<br>
 
 **Built in support for Openstack Keystone authentication**<br>
-Skypunch can monitor any HTTP REST service including Openstack services which require Openstack Keystone tokens<br>
+Skypunch can monitor any HTTP(S) REST service including Openstack services which require Openstack Keystone tokens.
+Skypunch will automatically retrieve an Openstack Keystone token and use it with the target request.<br>
 
 **Simple Command Line Interface (CLI)**<br>
-A CLI allows inspecting the current status of each monitored target.<br>
+A CLI allows interfacing with the skypunch daemon to list targets, notifiers and their current state<br> 
 
 Skypunch Database
 -----------------
-At the core of skypunch are the database tables which the skypunch daeamon uses to monitor targets and inform notifiers. 
+At the core of skypunch are the database tables which the skypunch daeamon uses to monitor targets and inform users. 
 The details for these tables can be found in *skypunch.sql* <br><br>
 
 **targets Table** <br>
 Each row in the table defines details of how to monitor each target including:
-* URL of system to be monitored 
-* HTTP Method to use
+* URL of system to be monitored (HTTP or HTTPS)
+* HTTP Method to use (GET,PUT,POST,DELETE,HEAD)
 * The type of HTTP authentication to use (NONE, BASIC, OPENSTACK)
 * The frequency of monitoring  (as frequent as once a second)
 * A timeout to fail on 
-* The expected result for 'success'
+* The expected result for 'success' (HTTP status code e.g. 200)
     
-Each row in the table also defines results for monitoring of each target
-* The last last status (PASS, FAIL)
-* Timestamp of last monitor
-* A detailed description of a failure
-* Statistics on success and failures
+Each row in the table also defines results for each target
+* The last status (PASS, FAIL)
+* Timestamp of last request 
+* A detailed description of a failure (if present)
+* Statistics on success and failures (counters)
 
 **notifiers Table** <br>
-Each row within the notifier table defines someone, or system, to be notified upon a failure or success.
-* The type of notification (SMTP, Tweet, etc)
-* Notification specific parameters (email address and parameters) 
+Each row within the notifier table defines someone to be notified upon a failure or success.
+* The type of notification (SMTP, Tweet, RSS)
+* Notification specific parameters (e.g. email address and parameters) 
 
 
 Installing Skypunch (for dev and ops)
