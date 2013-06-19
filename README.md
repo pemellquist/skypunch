@@ -36,12 +36,12 @@ The details for these tables can be found in *skypunch.sql* <br><br>
 
 **targets Table** <br>
 Each row in the table defines details of how to monitor each target including:
-1. URL of system to be monitored 
-2. HTTP Method to use
-3. The type of HTTP authentication to use ( NONE, BASIC, OPENSTACK )
-4. The frequency of monitoring  ( as frequent as once a second )
-5. A timeout to fail on 
-6. The expected result for 'success'
+* URL of system to be monitored 
+* HTTP Method to use
+* The type of HTTP authentication to use ( NONE, BASIC, OPENSTACK )
+* The frequency of monitoring  ( as frequent as once a second )
+* A timeout to fail on 
+* The expected result for 'success'
     
 Each row in the table also defines results for monitoring of each target
 1. The last last status (PASS, FAIL)
