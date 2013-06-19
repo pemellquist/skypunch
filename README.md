@@ -11,20 +11,20 @@ Skypunch runs as a system daemon using an SQL database for the definition of 'ta
 
 Skypunch is comprised of the following main areas:<br><br>
 **Python based monitoring code**<br>
-Skypunch is implemented in Python and uses a number of Python libraries including sqlalchemy for mysql access.<br><br>
+Skypunch is implemented in Python and uses a number of Python libraries including sqlalchemy for mysql access.<br>
 
 **MySQL database for defined 'targets' and 'notifiers'**<br>
 SQL table schemas for the definition of targets to be monitored and users to be notified are defined in a mysql database.
-The most recent monitored status is also updated to the target database for each target.<br><br>
+The most recent monitored status is also updated to the target database for each target.<br>
 
 **Configuration file for main runtime configuration**<br>
-A config file allows for global run time settings.<br><br>
+A config file allows for global run time settings.<br>
 
 **Log file for run time information**<br>
-A log file captures all monitored call details.<br><br>
+A log file captures all monitored call details.<br>
 
 **Simple Command Line Interface (CLI)**<br>
-A CLI allows inspecting the current status of each monitored target.<br><br>
+A CLI allows inspecting the current status of each monitored target.<br>
 
 Skypunch Database
 -----------------
