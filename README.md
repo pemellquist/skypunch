@@ -72,12 +72,12 @@ The current code has been tested on Python 2.7.3.<br>
     
 *$sudo apt-get install python*    
 
-**3 - Install skypunch from github**
+**3 - Install skypunch from github**<br>
 The current packaging is full source code.<br>
     
 *$git clone https://github.com/pemellquist/skypunch.git your_skypunch_directory*
 
-**4 - Install dependent libraries**
+**4 - Install dependent libraries**<br>
     
 *$sudo apt-get install python-pip python-dev build-essential*<br>
     
@@ -90,7 +90,8 @@ The current packaging is full source code.<br>
 *$sudo pip install mysql-connector-python*<br>
 
 
-**5 - Load skypunch SQL schema into mySQL**
+**5 - Load skypunch SQL schema into mySQL**<br>
+
 Loading the skypunch schema into mysql will allow defining targets and notifiers.<br>
     
 *$mysql -u youruser -p < your_skypunch_directory/sql/skpunch.sql* <br>
@@ -99,7 +100,8 @@ After doing this step you may also go into mysql and poke around. You should be 
 skypunch database and two tables ( use skypunch; describe targets; describe notifiers; )
 
 
-**6 - Define targets and notifiers**
+**6 - Define targets and notifiers**<br>
+
 Targets and notifiers can be defined in a provided config file and loaded into the
 database. An example file is provided and can be changed as needed.
     
