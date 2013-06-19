@@ -173,6 +173,11 @@ In order to run skypunch, you will need to install the code and prerequisite lib
     2013-06-18 04:07:53,413 INFO  [3] GitHub LBaaS                   GET https://github.com/LBaaS PASS (OK)
 
 
+Defining Targets to be Monitored
+--------------------------------
+
+
+
 Testing and Error Cases Covered
 --------------------------------
 1. Unable to connect to target
@@ -181,6 +186,9 @@ Testing and Error Cases Covered
 <p>The target is required to respond with the same response code in the target definition ( e.g. a target with a 200 respond should respond with a 200 for success). If the response does not match, the target status will be FAIL and all notifiers will be informed.
 3. Invalid authn params for BASIC
 <p>When defining the authn type as BASIC the target definition must have a 'user' and 'password' defined. Failing to do so will result in an error.
-4. Invalid authn param for Keystone
-5. Invalid Keystone authn failure
+4. Invalid authn param for OPENSTACK
+<p>When defining the authn type as OPENSTACK the target definition must have the 'user', 'password','osauthendpoint' and 'tenantid' parameters defined. Failing to do so will result in an error.   
+5. Invalid Openstack Keystone authn failure
+<p>If the Openstack Keystone parameters are defined but the Keystone endpoint fails to allow access this error will be generated.
+
 
