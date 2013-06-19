@@ -23,6 +23,9 @@ A config file allows for global run time settings.<br>
 **Log file for run time information**<br>
 A log file captures all monitored call details.<br>
 
+**Built in support for Openstack Keystone authentication**<br>
+Skypunch can monitor any HTTP REST service including Openstack services which require Openstack Keystone tokens<br>
+
 **Simple Command Line Interface (CLI)**<br>
 A CLI allows inspecting the current status of each monitored target.<br>
 
