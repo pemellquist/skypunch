@@ -38,21 +38,21 @@ The details for these tables can be found in *skypunch.sql* <br><br>
 Each row in the table defines details of how to monitor each target including:
 * URL of system to be monitored 
 * HTTP Method to use
-* The type of HTTP authentication to use ( NONE, BASIC, OPENSTACK )
-* The frequency of monitoring  ( as frequent as once a second )
+* The type of HTTP authentication to use (NONE, BASIC, OPENSTACK)
+* The frequency of monitoring  (as frequent as once a second)
 * A timeout to fail on 
 * The expected result for 'success'
     
 Each row in the table also defines results for monitoring of each target
-1. The last last status (PASS, FAIL)
-2. Timestamp of last monitor
-3. A detailed description of a failure
-4. statistics on success and failures
+* The last last status (PASS, FAIL)
+* Timestamp of last monitor
+* A detailed description of a failure
+* Statistics on success and failures
 
 **notifiers Table** <br>
 Each row within the notifier table defines someone, or system, to be notified upon a failure or success.
-1. The type of notification ( SMTP, Tweet, etc )
-2. Notification specific parameters ( email address and parameters) 
+* The type of notification (SMTP, Tweet, etc)
+* Notification specific parameters (email address and parameters) 
 
 
 Installing and Running Skypunch
