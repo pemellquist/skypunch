@@ -134,11 +134,9 @@ starting skypunch ....<br>
     +----+----------------------------+--------+---------------------+
     | 1  | Google home page           | PASS   | 2013-06-17 23:06:13 |
     | 2  | HP home page               | PASS   | 2013-06-17 23:06:13 |
-    | 3  | GitHub LBaaS               | PASS   | 2013-06-17 23:06:13 |
-    | 4  | GitHub LBaaS (bad)         | FAIL   | 2013-06-17 23:06:12 |
-    | 5  | GitHub LBaaS (basic authn) | PASS   | 2013-06-17 23:06:12 |
-    | 6  | HPCS LBaaS Service         | PASS   | 2013-06-17 23:06:13 |
-    | 7  | Localhost nginx test       | FAIL   | 2013-06-17 23:06:13 |
+    | 3  | GitHub Skypunch            | PASS   | 2013-06-17 23:06:13 |
+    | 4  | GitHub Skypunch (bad)      | FAIL   | 2013-06-17 23:06:12 |
+    | 6  | Localhost nginx test       | PASS   | 2013-06-17 23:06:13 |
     +----+----------------------------+--------+---------------------+
 
 **4 - list details about a specific target**<br>
@@ -200,7 +198,12 @@ starting skypunch ....<br>
 
 Defining Targets to be Monitored
 --------------------------------
+Defining a target to be monitored requires the insertion of a row into the 'targets' database.
 
+    USE skypunch;
+
+    INSERT INTO targets
+    VALUES (0,'Google home page','0','NEW',NULL,'NEW','','http://www.google.com','GET','NONE','',200,10,10,0,0,0,0,0,0,0,0,1);
 
 
 Testing and Error Cases Covered
