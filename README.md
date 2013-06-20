@@ -200,7 +200,7 @@ Defining Targets to be Monitored
 --------------------------------
 Defining a target to be monitored requires the insertion of a row into the 'targets' database.<br>
 
-Simple example to monitor www.google.com
+Simple example to monitor www.google.com. Google always stays up so this is a good example of a service which will either always return a 200 or report a network issue if the network cannot access Google.
 
     # create a google.com target
     # checks http://www.google.com for GET and requires a 200 status
