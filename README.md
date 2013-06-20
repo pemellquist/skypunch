@@ -200,6 +200,7 @@ Defining Targets to be Monitored
 --------------------------------
 Defining a target to be monitored requires the insertion of a row into the 'targets' database.<br>
 
+**Simple Service Monitoring**<br>
 Simple example to monitor www.google.com. Google always stays up so this is a good example of a service which will either always return a 200 or report a network issue if the network cannot access Google.
 
     # create a google.com target
@@ -211,6 +212,8 @@ Simple example to monitor www.google.com. Google always stays up so this is a go
     INSERT INTO targets
     VALUES (0,'Google home page','0','NEW',NULL,'NEW','','http://www.google.com','GET','NONE','',200,10,10,0,0,0,0,0,0,0,0,1);
 
+
+**Service with BASIC authn**
 Using your own HTTP server is an easy way to test Skypunch. In this example, an nginx HTTP server has been installed on the local system. Definition of a target for 'nginx test server' allows taking it down and seeing the target status change to status = 'FAIL' and triggering email notifications. Setting up basic HTTP authentication requi
 res the Skypunch target to use authn = 'BASIC'. This requires setting the authn parameters for the user and password.
 
