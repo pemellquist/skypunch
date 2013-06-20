@@ -198,8 +198,14 @@ starting skypunch ....<br>
 
 Defining Targets to be Monitored
 --------------------------------
-Defining a target to be monitored requires the insertion of a row into the 'targets' database.
+Defining a target to be monitored requires the insertion of a row into the 'targets' database.<br>
 
+Simple example to monitor www.google.com
+
+    # create a google.com target
+    # checks http://www.google.com for GET and requires a 200 status
+    # no authentication used
+    # called every 10 seconds, timeout is 10 seconds, enabled
     USE skypunch;
 
     INSERT INTO targets
