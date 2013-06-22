@@ -3,7 +3,7 @@ Skypunch  - Cloud Service Monitor
 
 Background
 ----------
-Skypunch is a service monitoring service which allows for the monitoring of cloud services for their availability and uptime. Skypunch can be configured to monitor any REST service and inform a user to the availability, or lack of, based on configurable notification parameters.  Skypunch supports the ability to access any REST service using various HTTP(S) authentication methods including *built in support for Openstack Cloud Services*.
+Skypunch is a service monitoring service which allows for the monitoring of cloud services for their availability and uptime. Skypunch can be configured to monitor any REST service and inform a user to the availability, or lack of, based on configurable notification parameters.  Skypunch supports the ability to access any REST service using various HTTP(S) authentication methods including **built in support for Openstack Cloud Services**.
 
 
 Design
