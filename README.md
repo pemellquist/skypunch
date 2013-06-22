@@ -1,9 +1,9 @@
-Skypunch
+Skypunch  - Cloud Service Monitor
 ========
 
 Background
 ----------
-Skypunch is a service monitoring service which allows for the monitoring of cloud services for their availability and uptime. Skypunch can be configured to monitor any REST service and inform a user to the availability, or lack of, based on configurable notification parameters.  Skypunch supports the ability to access any REST service using various HTTP(S) authentication methods including the usage of Openstack Keystone authentication tokens.
+Skypunch is a service monitoring service which allows for the monitoring of cloud services for their availability and uptime. Skypunch can be configured to monitor any REST service and inform a user to the availability, or lack of, based on configurable notification parameters.  Skypunch supports the ability to access any REST service using various HTTP(S) authentication methods including *built in support for Openstack Cloud Services*.
 
 
 Design
@@ -57,8 +57,8 @@ Each row within the notifier table defines someone to be notified upon a failure
 * Notification specific parameters (e.g. email address and parameters) 
 
 
-Installing Skypunch (for dev and ops)
--------------------------------
+Installing Skypunch 
+--------------------
 
 In order to run skypunch, you will need to install the code and prerequisite libraries.
 The following instructions define how to install everything on a single system. These instructions can be modified as needed for other setups. These instructions assume a linux Ubuntu system but can be changed to run on other operating systems. 
