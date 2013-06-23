@@ -124,12 +124,14 @@ class Puncher:
             # parse out the target URL
             url = urlparse(target.url)
             kwargs = {TIMEOUT: target.timeout}
+            location = url.netloc
+            locations = location.split(':')
 
             # connect to the target
             if url.scheme == PROTOCOL_HTTP:
-                conn = httplib.HTTPConnection(url.netloc,url.port,**kwargs)
+                conn = httplib.HTTPConnection(locations[0],url.port,**kwargs)
             elif url.scheme == PROTOCOL_HTTPS:
-                conn = httplib.HTTPSConnection(url.netloc, url.port,**kwargs)
+                conn = httplib.HTTPSConnection(locations[0], url.port,**kwargs)
             else:
                 self.logger.warn('target protocol %s not supported for %s' % (url.scheme,target.name))
                 raise SkyPunchInvalidProtocolError('target protocol %s not supported for %s' % (url.scheme,target.name)) 
