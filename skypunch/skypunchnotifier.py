@@ -50,6 +50,8 @@ class SkyPunchNotifier:
 
         body += 'Statistics\n'
         body += 'Pass Count :%d\n' % target.pass_count
+        body += 'Fail Count :%d\n' % target.fail_count
+        body += 'Network Fails :%d\n' % target.network_fails
 
         return body
 
@@ -70,7 +72,7 @@ class SkyPunchNotifier:
                 server = kv[1]
         if user == None or password == None or server == None:
             raise SkyPunchAuthParamError('user or password or server not defined')
-        self.logger.info('addr: %s user: %s pwd: %s server:%s' % ( notifier.address, user, password,server))
+        self.logger.info('notifying addr: %s at %s' % (notifier.name,notifier.address))
         smtpserver = smtplib.SMTP(server,587)
         smtpserver.ehlo()
         smtpserver.starttls()
