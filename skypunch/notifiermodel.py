@@ -31,22 +31,27 @@ class NotifierModel:
     def __init__(self,logger,config):
         self.logger=logger
         self.config=config
-        self.session=self.get_session()
-
-    # create a session from config file settings
-    def get_session(self):
         dbUri = 'mysql+mysqlconnector://{user}:{password}@{host}:{port}/{db}'
-        engine = create_engine(dbUri.format(user=self.config.getstr('database','user'),
+        self.engine = create_engine(dbUri.format(user=self.config.getstr('database','user'),
                                             password=self.config.getstr('database','password'),
                                             host=self.config.getstr('database','location'),
                                             port=self.config.getint('database','port'),
                                             db=self.config.getstr('database','dbname')))
-        metadata = MetaData(engine)
+        metadata = MetaData(self.engine)
         notifiers = Table('notifiers',metadata,autoload=True)
         mapper(Notifiers,notifiers)
-        Session = sessionmaker(bind=engine)
+        self.session = self.get_session()
+
+    # create a session from config file settings
+    def get_session(self):
+        Session = sessionmaker(bind=self.engine)
         session = Session()
+        self.session = session
         return session
+
+    # close the session
+    def close_session(self):
+        self.session.close()
 
     # write the resources to the db
     def commit(self):
