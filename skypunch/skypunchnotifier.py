@@ -18,6 +18,7 @@
 from   notifiermodel import NotifierModel
 from   puncher import * 
 import smtplib
+import sys
 
 __docstring__ = """
 SkyPunchNotifier allows sending notifications based on events ( failures or recoveries )
@@ -72,7 +73,7 @@ class SkyPunchNotifier:
                 server = kv[1]
         if user == None or password == None or server == None:
             raise SkyPunchAuthParamError('user or password or server not defined')
-        self.logger.info('notifying addr: %s at %s' % (notifier.name,notifier.address))
+        self.logger.info('notifying %s address: %s' % (notifier.name,notifier.address))
         smtpserver = smtplib.SMTP(server,587)
         smtpserver.ehlo()
         smtpserver.starttls()
@@ -105,6 +106,9 @@ class SkyPunchNotifier:
                         return
                     except smtplib.SMTPException as smtpe:
                         self.logger.error(smtpe)
+                        return
+                    except:
+                        self.logger.error('Unable to notify: %s error: %s' % (notifier.name,sys.exc_info()[0]))
                         return
                 else:
                     self.logger.warn('unrecognized notifier type: %s for : %s' % (notifier.type,notifier.name))
