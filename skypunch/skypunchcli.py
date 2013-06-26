@@ -24,7 +24,7 @@ SkyPunchCLI CLI interface into the SkyPunch daemon and database
 """
 
 class SkyPunchCLI:
-    COMMANDS = ['list']
+    COMMANDS = ['list','disable','enable']
 
     def __init__(self,logger,config):
         self.logger = logger
@@ -39,6 +39,28 @@ class SkyPunchCLI:
             self.list_all()
         elif len(commands) > 2 and commands[1] == 'list':
             self.list_individual(commands[2]) 
+        elif len(commands) > 2 and commands[1] == 'disable':
+            self.enable(False,commands[2])
+        elif len(commands) > 2 and commands[1] == 'enable':
+            self.enable(True,commands[2])
+
+    # disable a target
+    def enable(self,enable,id):
+        try:
+            i = int(id)
+        except ValueError:
+            print '%s is not a valid target id' % id
+            return
+        targetmodel = TargetModel(self.logger,self.config)
+        target = targetmodel.get(i)
+        if target == None:
+            print('id: %d does not exist' % i)
+            return
+        
+        target.enabled=enable
+        targetmodel.commit() 
+        print('Target: %s has been %s'% (target.name,'Enabled'if enable else 'Disabled')) 
+         
 
     # list details for an individual target
     def list_individual(self,id):
@@ -49,6 +71,9 @@ class SkyPunchCLI:
             return
         targetmodel = TargetModel(self.logger,self.config)
         target = targetmodel.get(i)
+        if target == None:
+            print('id: %d does not exist' % i)
+            return        
         details = PrettyTable(['Name','Value'])
         details.align = 'l'
         details.hrules = ALL 
@@ -56,6 +81,7 @@ class SkyPunchCLI:
         details.add_row(['ID',target.id])
         details.add_row(['Name',target.name])
         details.add_row(['Status',target.status])
+        details.add_row(['Enabled','Yes' if target.enabled else 'No'])
         details.add_row(['Status Description',target.status_description])
         details.add_row(['Last Updated',target.last_updated])
         details.add_row(['Target URL',target.url])
@@ -76,7 +102,7 @@ class SkyPunchCLI:
 
     # list all targets 
     def list_all(self):
-        targets = PrettyTable(['ID', 'Name', 'Status', 'LastUpdated'])
+        targets = PrettyTable(['ID', 'Name', 'Status', 'LastUpdated','Enabled'])
         targets.align = 'l'
         targetmodel = TargetModel(self.logger,self.config)
         ids = targetmodel.get_ids()
@@ -86,6 +112,7 @@ class SkyPunchCLI:
             row.append(target.id)
             row.append(target.name)
             row.append(target.status)
-            row.append(target.last_updated)    
+            row.append(target.last_updated)   
+            row.append('Yes' if target.enabled else 'No') 
             targets.add_row(row)
         print targets
