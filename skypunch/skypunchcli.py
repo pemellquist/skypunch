@@ -102,7 +102,7 @@ class SkyPunchCLI:
 
     # list all targets 
     def list_all(self):
-        targets = PrettyTable(['ID', 'Name', 'Status', 'LastUpdated','Enabled'])
+        targets = PrettyTable(['ID', 'Name', 'Status', 'LastUpdated','Enabled','Pass Count','Fail Count'])
         targets.align = 'l'
         targetmodel = TargetModel(self.logger,self.config)
         ids = targetmodel.get_ids()
@@ -114,5 +114,7 @@ class SkyPunchCLI:
             row.append(target.status)
             row.append(target.last_updated)   
             row.append('Yes' if target.enabled else 'No') 
+            row.append(target.pass_count)
+            row.append(target.fail_count)
             targets.add_row(row)
         print targets
