@@ -33,26 +33,41 @@ class SkyPunchNotifier:
     # make mail body
     def make_smtp_body(self,target):
         if target.status == 'FAIL': 
-            body = '\nSkypunch service monitor has detected a FAILURE\n\n' 
+            body = 'Skypunch Service Monitor FAILURE\n'
+            status = '<td bgcolor=#FF3C3C>%s</td>' % target.status
         elif target.status == 'PASS':
-            body = '\nSkypunch service monitor has detected SUCCESS\n\n'
+            body = 'Skypunch Service Monitor SUCCESS\n'
+            status = '<td bgcolor=#0AFF0A>%s</td>' % target.status
         else:
-            body = '\nSkypunch service monitor has detected .....\n\n'
+            body = 'Skypunch Service Monitor\n'
+            status = '<td>%s</td>' % target.status
+             
 
-        body += 'Name : %s\n' % target.name
-        body += 'Status : %s\n' % target.status
-        body += 'Details : %s\n' % target.status_description
-        body += 'Time : %s\n' % target.last_updated
-        body += 'URL : %s\n' % target.url
-        body += 'Method : %s\n' % target.method
-        body += 'Authn Type : %s\n' % target.authn
-        body += 'Timeout (sec) : %d\n' % target.timeout
-        body += 'Frequency (sec) : %d\n\n' % target.frequency
+        body += '<br><table border=1 cellpadding=2 cellspacing=0>'
+        body += '<tr bgcolor=#F2F2F2><td>Name</td><td><b>%s</b></td></tr>' % target.name
+        body += '<tr><td>Target ID</td><td>%d (%s)</td></tr>' % (target.id,'enabled' if target.enabled else 'disabled')
+        body += '<tr bgcolor=#F2F2F2><td>Status</td>%s</tr>' % status
+        body += '<tr><td>Reason</td><td>%s</td></tr>' % target.status_description
+        body += '<tr bgcolor=#F2F2F2><td>Last Updated</td><td>%s</td></tr>' % target.last_updated 
+        body += '<tr><td>URL</td><td>%s</td></tr>' % target.url
+        body += '<tr bgcolor=#F2F2F2><td>Method</td><td>%s</td></tr>' % target.method
+        body += '<tr><td>Authentication</td><td>%s</td></tr>' % target.authn
+        body += '<tr bgcolor=#F2F2F2><td>Frequency</td><td>Once Every %d sec</td></tr>' % target.frequency
+        body += '<tr><td>Timeout</td><td>%d sec</td></tr>' % target.timeout
+        body += '<tr bgcolor=#F2F2F2><td>Required Result</td><td>%s</td></tr>' % target.pass_result 
+        body += '</table>'
 
-        body += 'Statistics\n'
-        body += 'Pass Count :%d\n' % target.pass_count
-        body += 'Fail Count :%d\n' % target.fail_count
-        body += 'Network Fails :%d\n' % target.network_fails
+        body += '<br>Statistics<br>'
+        body += '<table border=1 cellpadding=2 cellspacing=0>'
+        body += '<tr bgcolor=#F2F2F2><td>Success Count</td><td>%d</td></tr>' % target.pass_count
+        body += '<tr><td>Fail Count</td><td>%d</td></tr>' % target.fail_count
+        body += '<tr bgcolor=#F2F2F2><td>2XX Count</td><td>%d</td></tr>' % target.count200 
+        body += '<tr><td>3XX Count</td><td>%d</td></tr>' % target.count300
+        body += '<tr bgcolor=#F2F2F2><td>4XX Count</td><td>%d</td></tr>' % target.count400
+        body += '<tr><td>5XX Count</td><td>%d</td></tr>' % target.count500
+        body += '<tr bgcolor=#F2F2F2><td>Repeated Fails</td><td>%d</td></tr>' % target.repeated_fails
+        body += '<tr><td>Network Fails</td><td>%d</td></tr>' % target.network_fails
+        body += '</table>'
 
         return body
 
@@ -86,7 +101,7 @@ class SkyPunchNotifier:
             subject = 'Subject: Skypunch SUCCESS detected for %s' % target.name 
         else:
             subject = 'Subject: Skypunch %s' % (target.status,target.name)
-        header = 'To:' + notifier.address + '\n' + 'From: SkyPunch'  + '\n' + subject
+        header = 'To: ' + notifier.address + '\n' + 'From: SkyPunch'  + '\n' + 'MIME-Version: 1.0' + '\n' + 'Content-type: text/html' + '\n' + subject +'\n\n'
         body = self.make_smtp_body(target)
         msg = header + body 
         smtpserver.sendmail(user, notifier.address, msg)
@@ -108,7 +123,7 @@ class SkyPunchNotifier:
                         self.logger.error(smtpe)
                         return
                     except:
-                        self.logger.error('Unable to notify: %s error: %s' % (notifier.name,sys.exc_info()[0]))
+                        self.logger.error('unable to notify: %s error: %s' % (notifier.name,sys.exc_info()[0]))
                         return
                 else:
                     self.logger.warn('unrecognized notifier type: %s for : %s' % (notifier.type,notifier.name))
