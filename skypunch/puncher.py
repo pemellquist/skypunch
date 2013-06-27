@@ -207,6 +207,13 @@ class Puncher:
             target.repeated_fails += 1
             target.status_description = 'network error to target' 
             httpStatus = 600
+        except:
+            target.previous_status = target.status
+            target.status = STATUS_FAIL
+            target.fail_count +=1
+            target.repeated_fails += 1
+            target.status_description = 'unable to read target response' 
+            httpStatus = 600
         message = '[%d] %-30s %s %s %s (%s)' % (target.id, target.name, target.method, target.url, target.status, target.status_description)
         
         if target.status == STATUS_PASS:
