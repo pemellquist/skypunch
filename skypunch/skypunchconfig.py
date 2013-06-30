@@ -20,6 +20,10 @@ SkyPunchConfig is a helper class which reads in configuration settings and makes
 available through an instance of SkyPunchConfig.
 """
 
+SETTINGS = 'settings'
+MAINLOOPTOV = 'mainlooptov'
+LOGFILEPATH = 'logfilepath'
+
 import ConfigParser
 
 class SkyPunchConfig:
@@ -38,7 +42,7 @@ class SkyPunchConfig:
                 for option in options:
                     self.config[section][option] = config.get(section,option) 
             except ConfigParser.Error:
-                self.logger.error('skypunch config exception on %s %s' % (section, option))	
+                self.logger.error('config exception on %s %s' % (section, option))	
         logger.info(self.config)
 
     # return an int value
