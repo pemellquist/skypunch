@@ -18,10 +18,10 @@
 # limitations under the License.
 
 __docstring__ ="""
-Skypunch is a web service monitoring system allowing the active monitoring and health
-checking of web services including Openstack services using the Keystone authentication
-system.
+Skypunch is a service monitoring system allowing the active monitoring and health
+checking of web services including Openstack cloud services. 
 """
+__version__ = '0.3.0'
 
 import time
 import logging
@@ -29,6 +29,7 @@ import signal
 import sys
 import daemon
 import os
+import skypunchconfig
 from daemon import runner
 from skypunchconfig import SkyPunchConfig 
 from targetmodel import TargetModel
@@ -36,7 +37,10 @@ from notifiermodel import NotifierModel
 from puncher import Puncher 
 from skypunchcli import SkyPunchCLI
 
-PIDFILE = '/tmp/skypunch.pid'
+PROGNAME = 'skypunch'
+PIDFILE = '/tmp/%s.pid' % PROGNAME
+START = 'start'
+STOP = 'stop'
 
 class SkyPunch:
 
@@ -50,8 +54,8 @@ class SkyPunch:
 
     # go through all targets in db then sleep and do it all again and again
     def run(self):
-        print 'starting skypunch ....'
-        logger.info('starting skypunch....')
+        print 'starting %s ....' % PROGNAME
+        logger.info('starting %s ....' % PROGNAME)
         config = SkyPunchConfig(logger)	
         targetmodel = TargetModel(logger,config)
         notifiermodel = NotifierModel(logger,config)
@@ -66,21 +70,21 @@ class SkyPunch:
                     puncher.punch(target,notifiermodel)
             targetmodel.close_session()
             notifiermodel.close_session()				
-            time.sleep(config.getint('settings','mainlooptov'))
+            time.sleep(config.getint(skypunchconfig.SETTINGS,skypunchconfig.MAINLOOPTOV))
 
 
     # shutdown
     def stop(self,signum,frame):
-        print 'shutting down ...'
-        logger.info('shutting down....')
+        print 'shutting down %s ...' % PROGNAME
+        logger.info('shutting down %s ....' % PROGNAME)
         sys.exit(0)
 
 # start, stop or respond to command
 if __name__ == "__main__":
     # set up logging
-    logger = logging.getLogger('skypunch')
+    logger = logging.getLogger(PROGNAME)
     config = SkyPunchConfig(logger)
-    hdlr = logging.FileHandler(config.getstr('settings','logfilepath'))
+    hdlr = logging.FileHandler(config.getstr(skypunchconfig.SETTINGS,skypunchconfig.LOGFILEPATH))
     formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
     hdlr.setFormatter(formatter)
     logger.addHandler(hdlr)
@@ -91,23 +95,24 @@ if __name__ == "__main__":
     options = skypunchcli.get_options()
 
     if len(sys.argv) == 1:
-        prog_options = 'usage: skypunch start | stop'
+        prog_options = 'usage: %s %s | %s ' % (PROGNAME,START,STOP)
         for option in options:
              prog_options += ' | %s' % option
+        print 'version: %s' % __version__
         print prog_options 
         sys.exit(1)
 
-    if sys.argv[1] != 'start' and sys.argv[1] != 'stop' and not sys.argv[1] in options:
+    if sys.argv[1] != START and sys.argv[1] != STOP and not sys.argv[1] in options:
         print 'unknown option: %s ' % sys.argv[1]
         sys.exit(1) 
 
     # process CLI command
-    if sys.argv[1] != 'start' and sys.argv[1] != 'stop':
+    if sys.argv[1] != START and sys.argv[1] != STOP:
         skypunchcli.process_commands(sys.argv)
         sys.exit(0)
 
-    if sys.argv[1] == 'start' and os.path.exists(PIDFILE):
-        print 'skypunch is already running'
+    if sys.argv[1] == START and os.path.exists(PIDFILE):
+        print '%s is already running' % PROGNAME
         sys.exit(0)
    
     # daemon  
@@ -119,5 +124,5 @@ if __name__ == "__main__":
     try:
         sprunner.do_action()
     except daemon.runner.DaemonRunnerStopFailureError:
-        print "skypunch is not running" 
+        print '%s is not running' % PROGNAME
         sys.exit(0)
