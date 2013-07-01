@@ -110,7 +110,7 @@ class SkyPunchNotifier:
     # try to notify someone
     def notify(self,target,notifiermodel):
         if target.status != target.previous_status and target.previous_status != 'NEW':
-            ids = notifiermodel.get_ids(target)
+            ids = notifiermodel.get_ids()
             for id in ids:
                 notifier = notifiermodel.get(id)
                 if notifier.type == 'SMTP':
