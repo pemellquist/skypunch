@@ -21,6 +21,9 @@ NotifierModel class is an abstraction of the SQL notifiers database allows R/W o
 from sqlalchemy import *
 from sqlalchemy.orm import mapper, sessionmaker
 from skypunchconfig import SkyPunchConfig
+import skypunchconfig
+
+TABLENAME = 'notifiers'
 
 class Notifiers(object):
     pass
@@ -32,13 +35,13 @@ class NotifierModel:
         self.logger=logger
         self.config=config
         dbUri = 'mysql+mysqlconnector://{user}:{password}@{host}:{port}/{db}'
-        self.engine = create_engine(dbUri.format(user=self.config.getstr('database','user'),
-                                            password=self.config.getstr('database','password'),
-                                            host=self.config.getstr('database','location'),
-                                            port=self.config.getint('database','port'),
-                                            db=self.config.getstr('database','dbname')))
+        self.engine = create_engine(dbUri.format(user=self.config.getstr(skypunchconfig.DATABASE,skypunchconfig.USER),
+                                            password=self.config.getstr(skypunchconfig.DATABASE,skypunchconfig.PASSWORD),
+                                            host=self.config.getstr(skypunchconfig.DATABASE,skypunchconfig.LOCATION),
+                                            port=self.config.getint(skypunchconfig.DATABASE,skypunchconfig.PORT),
+                                            db=self.config.getstr(skypunchconfig.DATABASE,skypunchconfig.DBNAME)))
         metadata = MetaData(self.engine)
-        notifiers = Table('notifiers',metadata,autoload=True)
+        notifiers = Table(TABLENAME,metadata,autoload=True)
         mapper(Notifiers,notifiers)
         self.session = self.get_session()
 
@@ -63,7 +66,7 @@ class NotifierModel:
         return res
 
     # get all the ids for the specified target
-    def get_ids(self,target):
+    def get_ids(self):
         res = self.session.query(Notifiers).all()
         ids = []
         for x in range(0,len(res)):

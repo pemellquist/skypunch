@@ -30,6 +30,7 @@ import sys
 import daemon
 import os
 import skypunchconfig
+import skypunchcli
 from daemon import runner
 from skypunchconfig import SkyPunchConfig 
 from targetmodel import TargetModel
@@ -91,8 +92,8 @@ if __name__ == "__main__":
     logger.setLevel(logging.INFO)
 
     # set up CLI processor
-    skypunchcli = SkyPunchCLI(logger,config) 
-    options = skypunchcli.get_options()
+    cli = SkyPunchCLI(logger,config) 
+    options = skypunchcli.COMMANDS
 
     if len(sys.argv) == 1:
         prog_options = 'usage: %s %s | %s ' % (PROGNAME,START,STOP)
@@ -102,13 +103,9 @@ if __name__ == "__main__":
         print prog_options 
         sys.exit(1)
 
-    if sys.argv[1] != START and sys.argv[1] != STOP and not sys.argv[1] in options:
-        print 'unknown option: %s ' % sys.argv[1]
-        sys.exit(1) 
-
     # process CLI command
     if sys.argv[1] != START and sys.argv[1] != STOP:
-        skypunchcli.process_commands(sys.argv)
+        cli.process_commands(sys.argv)
         sys.exit(0)
 
     if sys.argv[1] == START and os.path.exists(PIDFILE):

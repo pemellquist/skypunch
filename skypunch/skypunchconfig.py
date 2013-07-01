@@ -23,6 +23,12 @@ available through an instance of SkyPunchConfig.
 SETTINGS = 'settings'
 MAINLOOPTOV = 'mainlooptov'
 LOGFILEPATH = 'logfilepath'
+DATABASE = 'database'
+USER = 'user'
+PASSWORD = 'password'
+LOCATION = 'location'
+PORT = 'port'
+DBNAME = 'dbname'
 
 import ConfigParser
 
@@ -42,7 +48,7 @@ class SkyPunchConfig:
                 for option in options:
                     self.config[section][option] = config.get(section,option) 
             except ConfigParser.Error:
-                self.logger.error('config exception on %s %s' % (section, option))	
+                self.logger.error('config exception on %s %s' % (section,option))	
         logger.info(self.config)
 
     # return an int value
