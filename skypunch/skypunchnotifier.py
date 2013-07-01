@@ -113,6 +113,8 @@ class SkyPunchNotifier:
             ids = notifiermodel.get_ids()
             for id in ids:
                 notifier = notifiermodel.get(id)
+                if  not notifier.enabled:
+                    return
                 if notifier.type == 'SMTP':
                     try:
                         self.smtp_notify(notifier,target) 

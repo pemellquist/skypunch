@@ -51,17 +51,38 @@ class SkyPunchCLI:
            self.list_all_notifiers()
         elif len(commands) == 3 and commands[1] == NOTIFIERS.split(' ')[0]:
            self.list_individual_notifier(commands[2])
+        elif len(commands) == 4 and commands[1] == NOTIFIERS.split(' ')[0] and commands[3] == ENABLE:
+            self.enable_notifier(True,commands[2])
+        elif len(commands) == 4 and commands[1] == NOTIFIERS.split(' ')[0] and commands[3] == DISABLE:
+            self.enable_notifier(False,commands[2])
 
         else:
             print 'unrecognized command'
 
+    # enable or diable notifier
+    def enable_notifier(self,enable,id):
+        try:
+            i = int(id)
+        except ValueError:
+            print '%s is not a valid id' % id
+            return
+        notifiermodel = NotifierModel(self.logger,self.config)
+        notifier = notifiermodel.get(i)
+        if notifier == None:
+            print('id: %d does not exist' % i)
+            return
 
-    # disable a target
+        notifier.enabled=enable
+        notifiermodel.commit()
+        print('Notifier: %s has been %s'% (notifier.name,'Enabled'if enable else 'Disabled'))
+
+
+    # enable or disable a target
     def enable_target(self,enable,id):
         try:
             i = int(id)
         except ValueError:
-            print '%s is not a valid target id' % id
+            print '%s is not a valid id' % id
             return
         targetmodel = TargetModel(self.logger,self.config)
         target = targetmodel.get(i)
@@ -79,7 +100,7 @@ class SkyPunchCLI:
         try:
             i = int(id)
         except ValueError:
-            print '%s is not a valid target id' % id
+            print '%s is not a valid id' % id
             return
         targetmodel = TargetModel(self.logger,self.config)
         target = targetmodel.get(i)
@@ -117,7 +138,7 @@ class SkyPunchCLI:
         try:
             i = int(id)
         except ValueError:
-            print '%s is not a valid target id' % id
+            print '%s is not a valid id' % id
             return
         notifiermodel = NotifierModel(self.logger,self.config)
         notifier = notifiermodel.get(i)
@@ -130,14 +151,17 @@ class SkyPunchCLI:
         details.header = False
         details.add_row(['ID',notifier.id])
         details.add_row(['Name',notifier.name])
+        details.add_row(['Enabled','Yes' if notifier.enabled else 'No'])
         details.add_row(['Type',notifier.type])
         details.add_row(['Address',notifier.address])
+        details.add_row(['Pass Count',notifier.pass_count])
+        details.add_row(['Fail Count',notifier.fail_count])
         print details
  
 
     # list all notifiers
     def list_all_notifiers(self):
-        notifiers = PrettyTable(['ID', 'Name', 'Type', 'Address'])
+        notifiers = PrettyTable(['ID', 'Name', 'Enabled', 'Type', 'Address'])
         notifiers.align = 'l'
         notifiermodel = NotifierModel(self.logger,self.config)
         ids = notifiermodel.get_ids()
@@ -146,6 +170,7 @@ class SkyPunchCLI:
             row = []
             row.append(notifier.id)
             row.append(notifier.name)
+            row.append('Yes' if notifier.enabled else 'No')
             row.append(notifier.type)
             row.append(notifier.address)
             notifiers.add_row(row)
