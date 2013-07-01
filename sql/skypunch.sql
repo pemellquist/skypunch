@@ -50,6 +50,9 @@ CREATE TABLE notifiers (
     type               VARCHAR(50)              NOT NULL,                 # type of notifier (SMTP)
     address            VARCHAR(128)             NOT NULL,                 # who to notify ( e.g. with SMTP this is the email address ) 
     params             VARCHAR(128)             NOT NULL,                 # params based on type user=xxxx,password=yyyy,server=zzzzz
+    pass_count         BIGINT                   NOT NULL,                 # times this notifier has been sent with success
+    fail_count         BIGINT                   NOT NULL,                 # times this notifier has been sent with failure 
+    enabled            BOOLEAN                  NOT NULL,                 # is this notifier enabled to be sent to?
     PRIMARY KEY (id)                                                      # id of notifier 
 ) DEFAULT CHARSET utf8 DEFAULT COLLATE utf8_general_ci;
  
