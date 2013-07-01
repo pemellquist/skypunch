@@ -16,36 +16,48 @@
 # limitations under the License.
 from skypunchconfig import SkyPunchConfig
 from targetmodel import TargetModel
+from notifiermodel import NotifierModel
 from prettytable import *
-
 
 __docstring__ = """
 SkyPunchCLI CLI interface into the SkyPunch daemon and database
 """
+ENABLE = 'enable'
+DISABLE = 'disable'
+TARGETS = 'targets [id] [%s | %s]' % (ENABLE,DISABLE)
+NOTIFIERS = 'notifiers [id] [%s | %s]' % (ENABLE,DISABLE)
+COMMANDS = [TARGETS,NOTIFIERS]
 
 class SkyPunchCLI:
-    COMMANDS = ['list','disable','enable']
 
     def __init__(self,logger,config):
         self.logger = logger
         self.config = config
 
-    def get_options(self):
-        return self.COMMANDS
-
     # process CLI commands
     def process_commands(self,commands):
-        if len(commands) == 2 and commands[1] == 'list':
-            self.list_all()
-        elif len(commands) > 2 and commands[1] == 'list':
-            self.list_individual(commands[2]) 
-        elif len(commands) > 2 and commands[1] == 'disable':
-            self.enable(False,commands[2])
-        elif len(commands) > 2 and commands[1] == 'enable':
-            self.enable(True,commands[2])
+        # targets
+        if len(commands) == 2 and commands[1] == TARGETS.split(' ')[0]:
+            self.list_all_targets()
+        elif len(commands) == 3 and commands[1] == TARGETS.split(' ')[0]:
+            self.list_individual_target(commands[2])
+        elif len(commands) == 4 and commands[1] == TARGETS.split(' ')[0] and commands[3] == ENABLE:
+            self.enable_target(True,commands[2])
+        elif len(commands) == 4 and commands[1] == TARGETS.split(' ')[0] and commands[3] == DISABLE:
+            self.enable_target(False,commands[2])
+
+        # notifiers
+        elif len(commands) == 2 and commands[1] == NOTIFIERS.split(' ')[0]:
+           self.list_all_notifiers()
+        elif len(commands) == 3 and commands[1] == NOTIFIERS.split(' ')[0]:
+           self.list_individual_notifier(commands[2])
+
+        else:
+            print 'unrecognized command'
+
 
     # disable a target
-    def enable(self,enable,id):
+    def enable_target(self,enable,id):
         try:
             i = int(id)
         except ValueError:
@@ -63,7 +75,7 @@ class SkyPunchCLI:
          
 
     # list details for an individual target
-    def list_individual(self,id):
+    def list_individual_target(self,id):
         try:
             i = int(id)
         except ValueError:
@@ -100,8 +112,47 @@ class SkyPunchCLI:
         details.add_row(['Repeated Fail Count',target.repeated_fails]) 
         print details 
 
+    # list individual notifier
+    def list_individual_notifier(self,id):
+        try:
+            i = int(id)
+        except ValueError:
+            print '%s is not a valid target id' % id
+            return
+        notifiermodel = NotifierModel(self.logger,self.config)
+        notifier = notifiermodel.get(i)
+        if notifier == None:
+            print('id: %d does not exist' % i)
+            return
+        details = PrettyTable(['Name','Value'])
+        details.align = 'l'
+        details.hrules = ALL
+        details.header = False
+        details.add_row(['ID',notifier.id])
+        details.add_row(['Name',notifier.name])
+        details.add_row(['Type',notifier.type])
+        details.add_row(['Address',notifier.address])
+        print details
+ 
+
+    # list all notifiers
+    def list_all_notifiers(self):
+        notifiers = PrettyTable(['ID', 'Name', 'Type', 'Address'])
+        notifiers.align = 'l'
+        notifiermodel = NotifierModel(self.logger,self.config)
+        ids = notifiermodel.get_ids()
+        for id in ids:
+            notifier = notifiermodel.get(id)
+            row = []
+            row.append(notifier.id)
+            row.append(notifier.name)
+            row.append(notifier.type)
+            row.append(notifier.address)
+            notifiers.add_row(row)
+        print notifiers
+
     # list all targets 
-    def list_all(self):
+    def list_all_targets(self):
         targets = PrettyTable(['ID', 'Name', 'Status', 'LastUpdated','Enabled','Pass Count','Fail Count'])
         targets.align = 'l'
         targetmodel = TargetModel(self.logger,self.config)
