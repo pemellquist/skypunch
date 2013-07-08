@@ -43,6 +43,7 @@ class SkyPunchInvalidProtocolError(SkyPunchError):
 class SkyPunchKeystoneAuthError(SkyPunchError):
     def __init__(self, value):
         self.value = value
+        self.status = 0
 
     def __str__(self):
         return repr(self.value)
