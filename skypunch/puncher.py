@@ -128,7 +128,8 @@ class Puncher:
                 update_target_status(target,
                     STATUS_PASS if response.status == target.pass_result else STATUS_FAIL,
                     response.reason if response.status == target.pass_result else ('target status:%d != %d' % (response.status,target.pass_result))) 
-
+        except SystemExit, e:
+            sys.exit(e)
         except socket.error as se:
             update_target_status(target,STATUS_FAIL,str(se))
         except:
