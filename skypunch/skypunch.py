@@ -61,17 +61,20 @@ class SkyPunch:
         targetmodel = TargetModel(logger,config)
         notifiermodel = NotifierModel(logger,config)
         puncher = Puncher(logger,targetmodel)
-        while True:
-            targetmodel.get_session()
-            notifiermodel.get_session()
-            ids = targetmodel.get_ids()
-            for id in ids:
-                target = targetmodel.get(id)
-                if target.enabled:
-                    puncher.punch(target,notifiermodel)
-            targetmodel.close_session()
-            notifiermodel.close_session()				
-            time.sleep(config.getint(skypunchconfig.SETTINGS,skypunchconfig.MAINLOOPTOV))
+        try:
+            while True:
+                targetmodel.get_session()
+                notifiermodel.get_session()
+                ids = targetmodel.get_ids()
+                for id in ids:
+                    target = targetmodel.get(id)
+                    if target.enabled:
+                        puncher.punch(target,notifiermodel)
+                targetmodel.close_session()
+                notifiermodel.close_session()				
+                time.sleep(config.getint(skypunchconfig.SETTINGS,skypunchconfig.MAINLOOPTOV))
+        except SystemExit, e:
+            sys.exit(e)
 
 
     # shutdown
