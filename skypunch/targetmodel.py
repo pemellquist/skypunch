@@ -24,9 +24,40 @@ from skypunchconfig import SkyPunchConfig
 import skypunchconfig
 
 TABLENAME = 'targets'
+STATUS_PASS = 'PASS'
 
 class Targets(object):
     pass
+
+# update target counters
+def update_target_counters(target,response):
+    if response != None:
+        status = response.status
+    else:
+        status = 600
+    if status >=200 and status < 300:
+        target.count200 += 1
+    elif status >= 300 and status < 400:
+        target.count300 += 1
+    elif status >= 400 and status < 500:
+        target.count400 += 1
+    elif status >= 500 and status < 600:
+        target.count500 += 1
+    else:
+        target.network_fails += 1
+
+# update target with new status, adjust previous status and bump counters
+def update_target_status(target,status,description):
+    target.previous_status = target.status
+    target.status = status 
+    target.status_description = description 
+    if status == STATUS_PASS: 
+        target.pass_count += 1
+        target.repeated_fails = 0
+    else:
+        target.fail_count += 1
+        target.repeated_fails += 1
+
 
 class TargetModel:
 
