@@ -120,12 +120,20 @@ class SkyPunchNotifier:
                         self.smtp_notify(notifier,target) 
                     except SkyPunchAuthParamError as spe:
                         self.logger.warn(spe)
+                        notifier.fail_count += 1 
+                        notifiermodel.commit()
                         return
                     except smtplib.SMTPException as smtpe:
                         self.logger.error(smtpe)
+                        notifier.fail_count += 1
+                        notifiermodel.commit() 
                         return
                     except:
                         self.logger.error('unable to notify: %s error: %s' % (notifier.name,sys.exc_info()[0]))
+                        notifier.fail_count += 1
+                        notifiermodel.commit()
                         return
+                    notifier.pass_count += 1
+                    notifiermodel.commit()
                 else:
                     self.logger.warn('unrecognized notifier type: %s for : %s' % (notifier.type,notifier.name))
