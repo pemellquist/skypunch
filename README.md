@@ -1,4 +1,4 @@
-Skypunch  - Cloud Service Monitor
+Skypunch  - Cloud Service Monitoring
 ========
 
 Background
