@@ -15,16 +15,14 @@ Main Features
 **Background monitoring of an unlimited number of services**<br>
 Skypunch runs as a system daemon which monitors as many cloud services you like. The services can be any service including public and private cloud services which can be hosted within any cloud.
 
-**Built in Openstack Smarts**
-Skypunch has buiilt in ces which require Openstack Keystone tokens.
-Skypunch will automatically retrieve an Openstack Keystone token and use it with the target request.<br>
+**Built in Openstack Smarts**<br>
+Skypunch has built in support for services which require Openstack Keystone tokens. Skypunch will automatically retrieve an Openstack Keystone token and use it with the target request.<br>
 
-**Python based monitoring code**<br>
+**100% Python based**<br>
 Skypunch is implemented in Python and uses a number of Python libraries including sqlalchemy for mysql access.<br>
 
 **MySQL database for defined 'targets' and 'notifiers'**<br>
-SQL tables for targets to be monitored and users to be notified are defined within the mysql database.
-The most recent monitored status and empirical statistics are updated with each target request.<br>
+SQL tables for targets to be monitored and users to be notified are defined within the mysql database. In addition the tables model various statistics for each monitored target<br>
 
 **Configuration file for main runtime configuration**<br>
 A configuration file allows for global run time settings.<br>
