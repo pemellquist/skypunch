@@ -45,8 +45,8 @@ The Skypunch Data Model
 At the core of skypunch are the database tables which the skypunch daeamon uses to monitor targets and inform users. 
 The details for these tables can be found in [skypunch.sql](https://github.com/pemellquist/skypunch/blob/master/sql/skypunch.sql) <br><br>
 
-**targets Table** <br>
-Each row in the table defines details of how to monitor each target including:
+**Targets Table** <br>
+The targets table models each service to be monitored and collects performance statistics over time.
 * URL of system to be monitored (HTTP or HTTPS)
 * HTTP Method to use (GET,PUT,POST,DELETE,HEAD)
 * The type of HTTP authentication to use (NONE, BASIC, OPENSTACK)
