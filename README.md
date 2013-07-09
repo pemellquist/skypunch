@@ -40,7 +40,7 @@ A CLI allows interfacing with the skypunch daemon to list targets, notifiers and
 The Skypunch Data Model
 -----------------
 At the core of skypunch are the database tables which the skypunch daeamon uses to monitor targets and inform users. 
-The details for these tables can be found in *skypunch.sql* <br><br>
+The details for these tables can be found in [skypunch.sql](https://github.com/pemellquist/skypunch/blob/master/sql/skypunch.sql) <br><br>
 
 **targets Table** <br>
 Each row in the table defines details of how to monitor each target including:
