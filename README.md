@@ -18,6 +18,9 @@ Skypunch runs as a system daemon which monitors as many cloud services you like.
 **Built in Openstack Smarts**<br>
 Skypunch has built in support for services which require Openstack Keystone tokens. Skypunch will automatically retrieve an Openstack Keystone token and use it with the target request.<br>
 
+**Flexible Service Configuration**<br>
+Skypunch allows a target to be defined in a flexible manner including which protocol it supports, the specific HTTP method to be used, the response required and which authentication scheme should be used. Together these allow for the monitoring of a wide range of services.<br>
+
 **100% Python based**<br>
 Skypunch is implemented in Python and uses a number of Python libraries including sqlalchemy for mysql access.<br>
 
