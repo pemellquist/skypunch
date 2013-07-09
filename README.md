@@ -53,14 +53,13 @@ The targets table models each service to be monitored and collects performance s
 * The frequency of monitoring  (as frequent as once a second)
 * A timeout to fail on 
 * The expected result for 'success' (HTTP status code e.g. 200)
-    
-Each row in the table also defines results for each target
 * The last status (PASS, FAIL)
 * Timestamp of last request 
 * A detailed description of a failure (if present)
 * Statistics on success and failures (counters)
+* Is the target enabled to be used?
 
-**notifiers Table** <br>
+**Notifiers Table** <br>
 Each row within the notifier table defines someone to be notified upon a failure or success.
 * The type of notification (SMTP, Tweet, RSS)
 * Notification specific parameters (e.g. email address and parameters) 
