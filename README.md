@@ -37,7 +37,7 @@ A log file captures all request details.<br>
 **Simple Command Line Interface (CLI)**<br>
 A CLI allows interfacing with the skypunch daemon to list targets, notifiers and their current state<br> 
 
-Skypunch Database
+The Skypunch Data Model
 -----------------
 At the core of skypunch are the database tables which the skypunch daeamon uses to monitor targets and inform users. 
 The details for these tables can be found in *skypunch.sql* <br><br>
