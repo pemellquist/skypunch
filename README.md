@@ -12,7 +12,7 @@ Skypunch is a system service using an SQL database for the definition of 'target
 
 Main Features
 -------------
-**Background monitoring of an unlimited number of systems**
+**Background monitoring of an unlimited number of services**<br>
 Skypunch runs as a system daemon which monitors as many cloud services you like. The services can be any service including public and private cloud services which can be hosted within any cloud.
 
 **Python based monitoring code**<br>
