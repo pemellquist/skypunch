@@ -64,9 +64,9 @@ class Puncher:
 
     # log the result line
     def log_result(self,target):
-        message = ' [%d] %-30s %s %s %s (%s)' % (target.id, target.name, target.method, target.url, target.status, target.status_description)
+        message = '[%d] %-30s %s %s %s (%s)' % (target.id, target.name, target.method, target.url, target.status, target.status_description)
         if target.status == STATUS_PASS:
-            self.logger.info(' %s' % message)
+            self.logger.info(message)
         else:
             self.logger.error(message)
 
@@ -74,6 +74,7 @@ class Puncher:
     def punch_it_now(self,target,notifiermodel):
         response = None
         failed = False
+        trace = '' 
         try:
             # parse out the target URL
             url = urlparse(target.url)
@@ -89,14 +90,17 @@ class Puncher:
             else:
                 self.logger.warn('target protocol %s not supported for %s' % (url.scheme,target.name))
                 raise SkyPunchInvalidProtocolError('target protocol %s not supported for %s' % (url.scheme,target.name)) 
+            trace += 'Connecting to %s ....' % target.url
             conn.connect()
+            trace += '\nConnection    [OK]' 
             request = conn.putrequest(target.method, url.path)
            
             # HTTP Basic authentication  
             if target.authn == 'BASIC':
                 try:
                     auth = get_basic_auth(target)
-                    conn.putheader("Authorization", "Basic %s" % auth) 
+                    conn.putheader("Authorization", "Basic %s" % auth)
+                    trace += '\nUsing BASIC Authentication    [OK]' 
                 except SkyPunchAuthParamError as spe:
                     # improperly defined target, log error but do not notify
                     self.process_error(target,'invalid BASIC authn params (user and password required)')                
@@ -107,6 +111,7 @@ class Puncher:
                 try:
                     auth = get_openstack_auth(target)
                     conn.putheader("X-Auth-Token",auth)
+                    trace += '\nUsing Openstack Keystone token authentication  [OK]'
                 except SkyPunchAuthParamError:
                     # improperly defined target params, log error but do not notify
                     self.process_error(target,'invalid Openstack / Keystone authn params (user,password,tenantid,osauthendpoint)')
@@ -117,20 +122,27 @@ class Puncher:
                     return
                 except SkyPunchKeystoneAuthError as spe:
                     update_target_status(target,STATUS_FAIL, str(spe)) 
+                    trace += '\nUsing Openstack Keystone token authentication  [FAIL] reason: %s' % str(spe)
                     failed = True
 
             if not failed:
                 # add headers and issue request
                 conn.endheaders()
                 conn.send('')
+                trace += '\nSending %s request  [OK]' % target.method
                 response = conn.getresponse()
-
+                trace += '\nReading response [OK]'
+                if response.status == target.pass_result:
+                    trace += '\nResponse [OK]'
+                else:
+                    trace += '\nResponse [Fail] reason: target status:%d != %d'% (response.status,target.pass_result) 
                 update_target_status(target,
                     STATUS_PASS if response.status == target.pass_result else STATUS_FAIL,
                     response.reason if response.status == target.pass_result else ('target status:%d != %d' % (response.status,target.pass_result))) 
         except SystemExit, e:
             sys.exit(e)
         except socket.error as se:
+            trace += '\n[FAIL] reason: %s' % (str(se))
             update_target_status(target,STATUS_FAIL,str(se))
         except:
             update_target_status(target,STATUS_FAIL,sys.exc_info()[0])
@@ -140,7 +152,9 @@ class Puncher:
         # notify
         if notifiermodel != None: 
             notifier = SkyPunchNotifier(self.logger)
-            notifier.notify(target,notifiermodel)
+            notifier.notify(target,notifiermodel,trace)
+        else:
+            print trace
         
         # update counters
         update_target_counters(target,response)

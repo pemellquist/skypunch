@@ -94,7 +94,6 @@ class SkyPunchCLI:
             print('id: %d does not exist' % i)
             return
 
-        print('testing target: %s ....' % target.name)
         puncher = Puncher(self.logger,targetmodel)
         puncher.punch_it_now(target,None)
 

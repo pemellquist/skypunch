@@ -31,7 +31,7 @@ class SkyPunchNotifier:
         self.logger=logger
 
     # make mail body
-    def make_smtp_body(self,target):
+    def make_smtp_body(self,target,trace):
         if target.status == 'FAIL': 
             body = 'Skypunch Service Monitor FAILURE\n'
             status = '<td bgcolor=#FF3C3C>%s</td>' % target.status
@@ -69,10 +69,15 @@ class SkyPunchNotifier:
         body += '<tr><td>Network Fails</td><td>%d</td></tr>' % target.network_fails
         body += '</table>'
 
+        body += '<br>Trace'
+        body += '<pre>'
+        body += trace
+        body += '</pre>'
+
         return body
 
     # SMTP notify
-    def smtp_notify(self,notifier,target):
+    def smtp_notify(self,notifier,target,trace):
         user = None 
         password = None
         server = None
@@ -102,13 +107,13 @@ class SkyPunchNotifier:
         else:
             subject = 'Subject: Skypunch %s' % (target.status,target.name)
         header = 'To: ' + notifier.address + '\n' + 'From: SkyPunch'  + '\n' + 'MIME-Version: 1.0' + '\n' + 'Content-type: text/html' + '\n' + subject +'\n\n'
-        body = self.make_smtp_body(target)
+        body = self.make_smtp_body(target,trace)
         msg = header + body 
         smtpserver.sendmail(user, notifier.address, msg)
 
 
     # try to notify someone
-    def notify(self,target,notifiermodel):
+    def notify(self,target,notifiermodel,trace):
         if target.status != target.previous_status and target.previous_status != 'NEW':
             ids = notifiermodel.get_ids()
             for id in ids:
@@ -117,7 +122,7 @@ class SkyPunchNotifier:
                     return
                 if notifier.type == 'SMTP':
                     try:
-                        self.smtp_notify(notifier,target) 
+                        self.smtp_notify(notifier,target,trace) 
                     except SkyPunchAuthParamError as spe:
                         self.logger.warn(spe)
                         notifier.fail_count += 1 
