@@ -1,7 +1,7 @@
 Skypunch  - Cloud Service Monitoring System
 ========
 
-Background
+Introduction
 ----------
 Skypunch is a cloud service monitoring solution which allows for the monitoring of cloud services for their availability and performance. Skypunch can be configured to monitor any cloud service, public or private, and inform you regardning the availability, or lack of, based on configurable parameters.  Skypunch supports the ability to access any service using various HTTP(S) authentication methods including **built in support for Openstack Cloud Services**.
 
