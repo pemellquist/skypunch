@@ -60,8 +60,8 @@ The targets table models each service to be monitored and collects performance s
 * Is the target enabled to be used?
 
 **Notifiers Table** <br>
-Each row within the notifier table defines someone to be notified upon a failure or success.
-* The type of notification (SMTP, Tweet, RSS)
+The notifiers table models who should be notified upon key skypunch events (failure or success).
+* The type of notification (SMTP currently is only supported)
 * Notification specific parameters (e.g. email address and parameters) 
 
 
