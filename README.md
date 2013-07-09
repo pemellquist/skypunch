@@ -1,4 +1,4 @@
-Skypunch  - Cloud Service Monitoring
+Skypunch  - Cloud Service Monitoring System
 ========
 
 Background
@@ -6,11 +6,14 @@ Background
 Skypunch is a cloud service monitoring solution which allows for the monitoring of cloud services for their availability and performance. Skypunch can be configured to monitor any cloud service, public or private, and inform you regardning the availability, or lack of, based on configurable parameters.  Skypunch supports the ability to access any service using various HTTP(S) authentication methods including **built in support for Openstack Cloud Services**.
 
 
-Key Features
+Monitoring all your services
 ----------
 Skypunch is a system service using an SQL database for the definition of 'targets' to be monitored. Each target defined will be monitored at the defined URL and frequency. As each target is monitored, skypunch will log the result details to a log file ,update the SQL database with the results and inform a configurable user on the occurrence of an error or recovery.
 
-Skypunch is comprised of the following main:<br><br>
+Main Features:<br><br>
+**Background monitoring of an unlimited number of systems**
+Skypunch runs as a system daemon which monitors as many cloud services you like. The services can be any service including public and private cloud services which can be hosted within any cloud.
+
 **Python based monitoring code**<br>
 Skypunch is implemented in Python and uses a number of Python libraries including sqlalchemy for mysql access.<br>
 
