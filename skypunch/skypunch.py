@@ -108,6 +108,9 @@ if __name__ == "__main__":
 
     # process CLI command
     if sys.argv[1] != START and sys.argv[1] != STOP:
+        ch = logging.StreamHandler(sys.stdout)
+        logger.handlers = []
+        logger.addHandler(ch)
         cli.process_commands(sys.argv)
         sys.exit(0)
 
