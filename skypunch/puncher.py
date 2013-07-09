@@ -137,9 +137,10 @@ class Puncher:
 
         self.log_result(target)
 
-        # notify 
-        notifier = SkyPunchNotifier(self.logger)
-        notifier.notify(target,notifiermodel)
+        # notify
+        if notifiermodel != None: 
+            notifier = SkyPunchNotifier(self.logger)
+            notifier.notify(target,notifiermodel)
         
         # update counters
         update_target_counters(target,response)
