@@ -17,6 +17,7 @@
 from skypunchconfig import SkyPunchConfig
 from targetmodel import TargetModel
 from notifiermodel import NotifierModel
+from puncher import Puncher 
 from prettytable import *
 
 __docstring__ = """
@@ -24,7 +25,8 @@ SkyPunchCLI CLI interface into the SkyPunch daemon and database
 """
 ENABLE = 'enable'
 DISABLE = 'disable'
-TARGETS = 'targets [id] [%s | %s]' % (ENABLE,DISABLE)
+TEST = 'test'
+TARGETS = 'targets [id] [%s | %s | %s]' % (ENABLE,DISABLE,TEST)
 NOTIFIERS = 'notifiers [id] [%s | %s]' % (ENABLE,DISABLE)
 COMMANDS = [TARGETS,NOTIFIERS]
 
@@ -45,6 +47,8 @@ class SkyPunchCLI:
             self.enable_target(True,commands[2])
         elif len(commands) == 4 and commands[1] == TARGETS.split(' ')[0] and commands[3] == DISABLE:
             self.enable_target(False,commands[2])
+        elif len(commands) == 4 and commands[1] == TARGETS.split(' ')[0] and commands[3] == TEST:
+            self.test_target(commands[2])
 
         # notifiers
         elif len(commands) == 2 and commands[1] == NOTIFIERS.split(' ')[0]:
@@ -75,6 +79,24 @@ class SkyPunchCLI:
         notifier.enabled=enable
         notifiermodel.commit()
         print('Notifier: %s has been %s'% (notifier.name,'Enabled'if enable else 'Disabled'))
+
+
+    # test a target right now
+    def test_target(self,id):
+        try:
+            i = int(id)
+        except ValueError:
+            print '%s is not a valid id' % id
+            return
+        targetmodel = TargetModel(self.logger,self.config)
+        target = targetmodel.get(i)
+        if target == None:
+            print('id: %d does not exist' % i)
+            return
+
+        print('testing target: %s ....' % target.name)
+        puncher = Puncher(self.logger,targetmodel)
+        puncher.punch_it_now(target,None)
 
 
     # enable or disable a target
