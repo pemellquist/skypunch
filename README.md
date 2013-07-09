@@ -22,7 +22,7 @@ Skypunch has built in support for services which require Openstack Keystone toke
 Skypunch is implemented in Python and uses a number of Python libraries including sqlalchemy for mysql access.<br>
 
 **MySQL database for defined 'targets' and 'notifiers'**<br>
-SQL tables for targets to be monitored and users to be notified are defined within the mysql database. In addition the tables model various statistics for each monitored target<br>
+SQL tables for targets to be monitored and users to be notified are defined within the mysql database. In addition, the tables model various statistics for each monitored target.<br>
 
 **Configuration file for main runtime configuration**<br>
 A configuration file allows for global run time settings.<br>
