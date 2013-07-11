@@ -144,22 +144,33 @@ Tailing out skypunch.log is an easy way to see that it is running properly.
     $tail -f skypunch.log
     ..
     2013-07-11 06:10:57,053 INFO [1] HP Cloud Dot COM               GET https://www.hpcloud.com PASS (OK)
+    ..
     
+**3 - stopping skypunch**<br>
+
+    $python your_skypunch_directory/skypunch.py stop
+    shutting down skypunch ...
     
 
-**3 - list currently loaded targets**<br>
+**4 - list currently loaded targets**<br>
+You can list out all currently loaded targets in the database used by skypunch with a summary status using the 'targets' option.
 
-*$python your_skypunch_directory/skypunch.py list*
+    $python your_skypunch_directory/skypunch.py targets
 
-    +----+----------------------------+--------+---------------------+
-    | ID | Name                       | Status | LastUpdated         |
-    +----+----------------------------+--------+---------------------+
-    | 1  | Google home page           | PASS   | 2013-06-17 23:06:13 |
-    | 2  | HP home page               | PASS   | 2013-06-17 23:06:13 |
-    | 3  | GitHub Skypunch            | PASS   | 2013-06-17 23:06:13 |
-    | 4  | GitHub Skypunch (bad)      | FAIL   | 2013-06-17 23:06:12 |
-    | 6  | Localhost nginx test       | PASS   | 2013-06-17 23:06:13 |
-    +----+----------------------------+--------+---------------------+
+    +----+------------------------------+--------+---------------------+---------+------------+------------+
+    | ID | Name                         | Status | LastUpdated         | Enabled | Pass Count | Fail Count |
+    +----+------------------------------+--------+---------------------+---------+------------+------------+
+    | 1  | HP Cloud Dot COM             | PASS   | 2013-07-11 06:17:54 | Yes     | 12996      | 0          |
+    | 2  | Openstack Block Storage      | PASS   | 2013-07-11 06:17:49 | Yes     | 12984      | 2          |
+    | 3  | Openstack CDN Region         | PASS   | 2013-07-11 06:17:50 | Yes     | 12972      | 1          |
+    | 4  | Openstack Compute Region A   | PASS   | 2013-07-11 06:17:51 | Yes     | 12970      | 2          |
+    | 5  | Openstack Compute Region B   | PASS   | 2013-07-11 06:17:51 | Yes     | 12965      | 4          |
+    | 6  | Openstack Compute Region C   | PASS   | 2013-07-11 06:17:52 | Yes     | 12969      | 0          |
+    | 7  | Openstack Object Storage     | PASS   | 2013-07-11 06:17:53 | Yes     | 12959      | 1          |
+    | 8  | Localhost nginx test         | PASS   | 2013-07-11 06:17:53 | Yes     | 11864      | 1103       |
+    +----+------------------------------+--------+---------------------+---------+------------+------------+
+
+This summary view shows all the targets the status of the last monitor, if the target is enable and pass and fail counts.
 
 **4 - list details about a specific target**<br>
 
