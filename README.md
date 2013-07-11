@@ -116,9 +116,9 @@ skypunch database and two tables ( use skypunch; describe targets; describe noti
 
 Targets and notifiers can be defined in a config file and loaded into the
 database. You can also edit the mysql database directly as needed. 
-An example target and notifier definition file is provided, [data.sql](), and can be changed as needed. Add all the targets and notifiers needed in your own copy of this file.
+An example target and notifier definition file is provided, [data.sql](https://github.com/pemellquist/skypunch/blob/master/sql/data.sql), and can be changed as needed. Add all the targets and notifiers needed in your own copy of this file.
     
-*$mysql -u youruser -p < your_skypunch_directory/sql/data.sql*
+    $mysql -u youruser -p < <your_skypunch_directory>/sql/data.sql
 
 
 Running Skypunch
