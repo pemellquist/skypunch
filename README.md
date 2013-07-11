@@ -74,7 +74,7 @@ The following instructions define how to install everything on a single system. 
 Note! The current installation is a manual process. The plan is make this a debian package using a python package install. For now, the steps below are required.
 
 **1 - Install and setup mysql**<br>
-Note! the default skypunch.config file defines the mysql connection parameters 
+Note! the default [skypunch.config]( ) file defines the mysql connection parameters 
 including user, password and mysql server address. The default assumes root:root and localhost, change as needed. <br>
 
 *$sudo apt-get install mysql-server*
