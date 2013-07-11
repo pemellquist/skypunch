@@ -87,26 +87,26 @@ The current code has been tested on Python 2.7.3.<br>
 **3 - Install skypunch from github**<br>
 The current packaging is full source code.<br>
     
-    $git clone https://github.com/pemellquist/skypunch.git your_skypunch_directory
+    $git clone https://github.com/pemellquist/skypunch.git <your_skypunch_directory>
 
 **4 - Install dependent libraries**<br>
     
-    $sudo apt-get install python-pip python-dev build-essential<br>
+    $sudo apt-get install python-pip python-dev build-essential
     
-    $sudo pip install python-daemon<br>
+    $sudo pip install python-daemon
     
-    $sudo apt-get install mysql-server<br>
+    $sudo apt-get install mysql-server
     
-    $sudo pip install SQLAlchemy<br>
+    $sudo pip install SQLAlchemy
     
-    $sudo pip install mysql-connector-python<br>
+    $sudo pip install mysql-connector-python
 
 
 **5 - Load skypunch SQL schema into mySQL**<br>
 
 Loading the skypunch schema into mysql will allow defining targets and notifiers.<br>
     
-*$mysql -u youruser -p < your_skypunch_directory/sql/skpunch.sql* <br>
+    $mysql -u youruser -p < <your_skypunch_directory>/sql/skpunch.sql
 
 After doing this step you may also go into mysql and poke around. You should be able to see the
 skypunch database and two tables ( use skypunch; describe targets; describe notifiers; )
@@ -114,8 +114,9 @@ skypunch database and two tables ( use skypunch; describe targets; describe noti
 
 **6 - Define targets and notifiers**<br>
 
-Targets and notifiers can be defined in a provided config file and loaded into the
-database. An example file is provided, *data.sql*, and can be changed as needed.
+Targets and notifiers can be defined in a config file and loaded into the
+database. You can also edit the mysql database directly as needed. 
+An example target and notifier definition file is provided, [data.sql](), and can be changed as needed. Add all the targets and notifiers needed in your own copy of this file.
     
 *$mysql -u youruser -p < your_skypunch_directory/sql/data.sql*
 
