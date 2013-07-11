@@ -1,4 +1,4 @@
-# SkyPunch Database schema
+# SkyPunch example target and notifier data, use as a template to create your own
 # pemellquist@gmail.com
 
 USE skypunch;
