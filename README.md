@@ -77,29 +77,29 @@ Note! The current installation is a manual process. The plan is make this a debi
 Note! the default [skypunch.config](https://github.com/pemellquist/skypunch/blob/master/skypunch.config ) file defines the mysql connection parameters 
 including user, password and mysql server address. The default assumes root:root and localhost, change as needed. <br>
 
-    *$sudo apt-get install mysql-server*
+    $sudo apt-get install mysql-server
     
 **2 - Install Python**<br>
 The current code has been tested on Python 2.7.3.<br>
     
-*$sudo apt-get install python*    
+    $sudo apt-get install python
 
 **3 - Install skypunch from github**<br>
 The current packaging is full source code.<br>
     
-*$git clone https://github.com/pemellquist/skypunch.git your_skypunch_directory*
+    $git clone https://github.com/pemellquist/skypunch.git your_skypunch_directory
 
 **4 - Install dependent libraries**<br>
     
-*$sudo apt-get install python-pip python-dev build-essential*<br>
+    $sudo apt-get install python-pip python-dev build-essential<br>
     
-*$sudo pip install python-daemon*<br>
+    $sudo pip install python-daemon<br>
     
-*$sudo apt-get install mysql-server*<br>
+    $sudo apt-get install mysql-server<br>
     
-*$sudo pip install SQLAlchemy*<br>
+    $sudo pip install SQLAlchemy<br>
     
-*$sudo pip install mysql-connector-python*<br>
+    $sudo pip install mysql-connector-python<br>
 
 
 **5 - Load skypunch SQL schema into mySQL**<br>
