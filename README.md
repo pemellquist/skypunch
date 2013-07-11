@@ -132,7 +132,7 @@ Once skypunch is installed a CLI allows controlling the skypunch daemon and quer
     version: 0.3.0
     usage: skypunch start | stop  | targets [id] [enable | disable | test] | notifiers [id] [enable | disable]
 
-**2 - starting skypunch**<br>
+**2 - Starting skypunch**<br>
 
     $python your_skypunch_directory/skypunch.py start
     started with pid 8100
@@ -146,13 +146,13 @@ Tailing out skypunch.log is an easy way to see that it is running properly.
     2013-07-11 06:10:57,053 INFO [1] HP Cloud Dot COM               GET https://www.hpcloud.com PASS (OK)
     ..
     
-**3 - stopping skypunch**<br>
+**3 - Stopping skypunch**<br>
 
     $python your_skypunch_directory/skypunch.py stop
     shutting down skypunch ...
     
 
-**4 - list currently loaded targets**<br>
+**4 - List currently loaded targets**<br>
 You can list out all currently loaded targets in the database used by skypunch with a summary status using the 'targets' option.
 
     $python your_skypunch_directory/skypunch.py targets
@@ -172,7 +172,7 @@ You can list out all currently loaded targets in the database used by skypunch w
 
 This summary view shows all the targets with the status of the last monitor, if the target is enabled, and pass / fail counts.
 
-**5 - list details about a specific target**<br>
+**5 - List details about a specific target**<br>
 Using the target Id, you can query for complete details for any defined target.
 
     $python skypunch/skypunch.py targets 1
@@ -220,14 +220,15 @@ Using the target Id, you can query for complete details for any defined target.
     +---------------------+-------------------------+
 
  
-**6 - enabling or disabling a target**<br>
+**6 - Enable or disable a target**<br>
 There may be times when you would like to disable the monitoring of a target but leave it within the database to be enabled in the future.
 The disable option will stop the skypunch daemon from making subsequent monitor calls to this target.
 
 
-**7 - testing a target right now in manual mode**<br>
+**7 - Test a target right now in manual mode**<br>
 The test option from the CLI allows testing an existing target right away independent from the background monitoring and showing the results within stdout. This may prove useful when trying to diagnose an issue on the fly.
 
+**8 - Notifier CLI stuff**<br>
 
 
 
