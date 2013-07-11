@@ -123,18 +123,29 @@ An example target and notifier definition file is provided, [data.sql](https://g
 
 Running Skypunch
 ----------------
+Once skypunch is installed a CLI allows controlling the skypunch daemon and querying the database for targets, notifiers. The CLI also allows testing targets manually and enabling or disabling targets.
 
 
-**1 - list skypunch options**<br>
+**1 - Skypunch CLI options**<br>
 
-*$python your_skypunch_directory/skypunch.py*<br>
-usage: skypunch start | stop | list<br>
+    $python skypunch/skypunch.py
+    version: 0.3.0
+    usage: skypunch start | stop  | targets [id] [enable | disable | test] | notifiers [id] [enable | disable]
 
-**2 - start skypunch**<br>
+**2 - starting skypunch**<br>
 
-*$python your_skypunch_directory/skypunch.py start*
-started with pid 8100<br>
-starting skypunch ....<br>
+    $python your_skypunch_directory/skypunch.py start
+    started with pid 8100
+    starting skypunch ....
+    
+Starting skypunch will kick of a daemon process running which will read in [skypunch.config](https://github.com/pemellquist/skypunch/blob/master/skypunch.config ) and start the monitoring based on targets and notifiers defined in the mysql database.
+Tailing out skypunch.log is an easy way to see that it is running properly.
+
+    $tail -f skypunch.log
+    ..
+    2013-07-11 06:10:57,053 INFO [1] HP Cloud Dot COM               GET https://www.hpcloud.com PASS (OK)
+    
+    
 
 **3 - list currently loaded targets**<br>
 
