@@ -160,7 +160,7 @@ You can list out all currently loaded targets in the database used by skypunch w
     +----+------------------------------+--------+---------------------+---------+------------+------------+
     | ID | Name                         | Status | LastUpdated         | Enabled | Pass Count | Fail Count |
     +----+------------------------------+--------+---------------------+---------+------------+------------+
-    | 1  | HP Cloud Dot COM             | PASS   | 2013-07-11 06:17:54 | Yes     | 12996      | 0          |
+    | 1  | Google Dot COM               | PASS   | 2013-07-11 06:17:54 | Yes     | 12996      | 0          |
     | 2  | Openstack Block Storage      | PASS   | 2013-07-11 06:17:49 | Yes     | 12984      | 2          |
     | 3  | Openstack CDN Region         | PASS   | 2013-07-11 06:17:50 | Yes     | 12972      | 1          |
     | 4  | Openstack Compute Region A   | PASS   | 2013-07-11 06:17:51 | Yes     | 12970      | 2          |
@@ -170,61 +170,65 @@ You can list out all currently loaded targets in the database used by skypunch w
     | 8  | Localhost nginx test         | PASS   | 2013-07-11 06:17:53 | Yes     | 11864      | 1103       |
     +----+------------------------------+--------+---------------------+---------+------------+------------+
 
-This summary view shows all the targets the status of the last monitor, if the target is enable and pass and fail counts.
+This summary view shows all the targets with the status of the last monitor, if the target is enabled, and pass / fail counts.
 
-**4 - list details about a specific target**<br>
+**5 - list details about a specific target**<br>
+Using the target Id, you can query for complete details for any defined target.
 
-*$python skypunch/skypunch.py list 1*
+    $python skypunch/skypunch.py targets 1
 
-    +---------------------+-----------------------+
-    | ID                  | 1                     |
-    +---------------------+-----------------------+
-    | Name                | Google home page      |
-    +---------------------+-----------------------+
-    | Status              | PASS                  |
-    +---------------------+-----------------------+
-    | Status Description  | OK                    |
-    +---------------------+-----------------------+
-    | Last Updated        | 2013-06-17 23:06:55   |
-    +---------------------+-----------------------+
-    | Target URL          | http://www.google.com |
-    +---------------------+-----------------------+
-    | Target Method       | GET                   |
-    +---------------------+-----------------------+
-    | Authentication      | NONE                  |
-    +---------------------+-----------------------+
-    | Expected Value      | 200                   |
-    +---------------------+-----------------------+
-    | Frequency (sec)     | 10                    |
-    +---------------------+-----------------------+
-    | Timeout (sec)       | 10                    |
-    +---------------------+-----------------------+
-    | Pass Count          | 7900                  |
-    +---------------------+-----------------------+
-    | Fail Count          | 0                     |
-    +---------------------+-----------------------+
-    | 200 Status Count    | 7900                  |
-    +---------------------+-----------------------+
-    | 300 Status Count    | 0                     |
-    +---------------------+-----------------------+
-    | 400 Status Count    | 0                     |
-    +---------------------+-----------------------+
-    | 500 Status Count    | 0                     |
-    +---------------------+-----------------------+
-    | Network Fail Count  | 0                     |
-    +---------------------+-----------------------+
-    | Repeated Fail Count | 0                     |
-    +---------------------+-----------------------+
+    +---------------------+-------------------------+
+    | ID                  | 1                       |
+    +---------------------+-------------------------+
+    | Name                | Google Dot COM          |
+    +---------------------+-------------------------+
+    | Status              | PASS                    |
+    +---------------------+-------------------------+
+    | Enabled             | Yes                     |
+    +---------------------+-------------------------+
+    | Status Description  | OK                      |
+    +---------------------+-------------------------+
+    | Last Updated        | 2013-07-11 06:28:39     |
+    +---------------------+-------------------------+
+    | Target URL          | https://www.google.com  |
+    +---------------------+-------------------------+
+    | Target Method       | GET                     |
+    +---------------------+-------------------------+
+    | Authentication      | NONE                    |
+    +---------------------+-------------------------+
+    | Expected Value      | 200                     |
+    +---------------------+-------------------------+
+    | Frequency (sec)     | 10                      |
+    +---------------------+-------------------------+
+    | Timeout (sec)       | 10                      |
+    +---------------------+-------------------------+
+    | Pass Count          | 13048                   |
+    +---------------------+-------------------------+
+    | Fail Count          | 0                       |
+    +---------------------+-------------------------+
+    | 200 Status Count    | 13048                   |
+    +---------------------+-------------------------+
+    | 300 Status Count    | 0                       |
+    +---------------------+-------------------------+
+    | 400 Status Count    | 0                       |
+    +---------------------+-------------------------+
+    | 500 Status Count    | 0                       |
+    +---------------------+-------------------------+
+    | Network Fail Count  | 0                       |
+    +---------------------+-------------------------+
+    | Repeated Fail Count | 0                       |
+    +---------------------+-------------------------+
+
  
-**5 - tailing the log file shows current monitoring**<br>
+**6 - enabling or disabling a target**<br>
+There may be times when you would like to disable the monitoring of a target but leave it within the database to be enabled in the future.
+The disable option will stop the skypunch daemon from making subsequent monitor calls to this target.
 
-*$tail -f skypunch.log*
 
-    2013-06-18 04:07:52,432 INFO  [5] GitHub LBaaS (basic authn)     GET https://github.com/LBaaS PASS (OK)
-    2013-06-18 04:07:52,564 INFO  [7] Localhost nginx test           GET http://localhost PASS (OK)
-    2013-06-18 04:07:52,903 INFO  [1] Google home page               GET http://www.google.com PASS (OK)
-    2013-06-18 04:07:53,064 INFO  [2] HP home page                   GET http://www.hp.com PASS (OK)
-    2013-06-18 04:07:53,413 INFO  [3] GitHub LBaaS                   GET https://github.com/LBaaS PASS (OK)
+**7 - testing a target right now in manual mode**<br>
+The test option from the CLI allows testing an existing target right away independent from the background monitoring and showing the results within stdout. This may prove useful when trying to diagnose an issue on the fly.
+
+
 
 
 Defining Targets to be Monitored
