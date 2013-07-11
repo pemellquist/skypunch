@@ -77,7 +77,7 @@ Note! The current installation is a manual process. The plan is make this a debi
 Note! the default [skypunch.config](https://github.com/pemellquist/skypunch/blob/master/skypunch.config ) file defines the mysql connection parameters 
 including user, password and mysql server address. The default assumes root:root and localhost, change as needed. <br>
 
-*$sudo apt-get install mysql-server*
+    *$sudo apt-get install mysql-server*
     
 **2 - Install Python**<br>
 The current code has been tested on Python 2.7.3.<br>
