@@ -19,6 +19,7 @@ from   notifiermodel import NotifierModel
 from   puncher import * 
 import smtplib
 import sys
+import  socket
 
 __docstring__ = """
 SkyPunchNotifier allows sending notifications based on events ( failures or recoveries )
@@ -133,8 +134,13 @@ class SkyPunchNotifier:
                         notifier.fail_count += 1
                         notifiermodel.commit() 
                         return
+                    except socket.error as se:
+                        self.logger.error('unable to notify: %s socket error: %s' % (notifier.name,str(se)))
+                        notifier.fail_count += 1
+                        notifiermodel.commit()
+                        return
                     except:
-                        self.logger.error('unable to notify: %s error: %s' % (notifier.name,sys.exc_info()[0]))
+                        self.logger.error('unable to notify: %s error: %s' % (notifier.name,str(sys.exc_info()[0])))
                         notifier.fail_count += 1
                         notifiermodel.commit()
                         return

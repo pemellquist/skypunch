@@ -94,8 +94,8 @@ class SkyPunchCLI:
             print('id: %d does not exist' % i)
             return
 
-        puncher = Puncher(self.logger,targetmodel)
-        puncher.punch_it_now(target,None)
+        puncher = Puncher(self.logger,targetmodel,None)
+        puncher.punch_it_now(target)
 
 
     # enable or disable a target

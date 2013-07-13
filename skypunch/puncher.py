@@ -48,9 +48,10 @@ STATUS_FAIL = 'FAIL'
 class Puncher:
 
     # set up logger, config and db model
-    def __init__(self,logger,targetmodel):
+    def __init__(self,logger,targetmodel,notifiermodel):
         self.logger = logger
         self.targetmodel = targetmodel
+        self.notifiermodel = notifiermodel
 
     # process error condition and message
     def process_error(self,target,message):
@@ -71,7 +72,7 @@ class Puncher:
             self.logger.error(message)
 
     # punch a target right now
-    def punch_it_now(self,target,notifiermodel):
+    def punch_it_now(self,target):
         response = None
         failed = False
         trace = '' 
@@ -90,17 +91,19 @@ class Puncher:
             else:
                 self.logger.warn('target protocol %s not supported for %s' % (url.scheme,target.name))
                 raise SkyPunchInvalidProtocolError('target protocol %s not supported for %s' % (url.scheme,target.name)) 
-            trace += 'Connecting to %s ....' % target.url
+            trace += '%s Connecting to %s ....' % (datetime.datetime.now(),target.url)
             conn.connect()
-            trace += '\nConnection    [OK]' 
+            trace += '\n%s Connection    [OK]' % datetime.datetime.now()
+            trace += '\n%s Sending target request string ...' % datetime.datetime.now()
             request = conn.putrequest(target.method, url.path)
+            trace += '\n%s Sent [OK]' % datetime.datetime.now()
            
             # HTTP Basic authentication  
             if target.authn == 'BASIC':
                 try:
                     auth = get_basic_auth(target)
                     conn.putheader("Authorization", "Basic %s" % auth)
-                    trace += '\nUsing BASIC Authentication    [OK]' 
+                    trace += '\n%s Using BASIC Authentication    [OK]' % datetime.datetime.now()
                 except SkyPunchAuthParamError as spe:
                     # improperly defined target, log error but do not notify
                     self.process_error(target,'invalid BASIC authn params (user and password required)')                
@@ -109,9 +112,10 @@ class Puncher:
             # Openstack Keystone token based authentication
             elif target.authn == 'OPENSTACK':
                 try:
+                    trace += '\n%s Getting OpenStack Keystone Auth Token ....' % datetime.datetime.now()
                     auth = get_openstack_auth(target)
                     conn.putheader("X-Auth-Token",auth)
-                    trace += '\nUsing Openstack Keystone token authentication  [OK]'
+                    trace += '\n%s Openstack Keystone Token Obtained  [OK]' % datetime.datetime.now()
                 except SkyPunchAuthParamError:
                     # improperly defined target params, log error but do not notify
                     self.process_error(target,'invalid Openstack / Keystone authn params (user,password,tenantid,osauthendpoint)')
@@ -122,37 +126,37 @@ class Puncher:
                     return
                 except SkyPunchKeystoneAuthError as spe:
                     update_target_status(target,STATUS_FAIL, str(spe)) 
-                    trace += '\nUsing Openstack Keystone token authentication  [FAIL] reason: %s' % str(spe)
+                    trace += '\n%s Using Openstack Keystone token authentication  [FAIL] reason: %s' % (datetime.datetime.now(),str(spe))
                     failed = True
 
             if not failed:
                 # add headers and issue request
                 conn.endheaders()
                 conn.send('')
-                trace += '\nSending %s request  [OK]' % target.method
+                trace += '\n%s Sending %s request  [OK]' % (datetime.datetime.now(),target.method)
                 response = conn.getresponse()
-                trace += '\nReading response [OK]'
+                trace += '\n%s Reading response [OK]' % datetime.datetime.now()
                 if response.status == target.pass_result:
-                    trace += '\nResponse [OK]'
+                    trace += '\n%s Response [OK]' % datetime.datetime.now()
                 else:
-                    trace += '\nResponse [Fail] reason: target status:%d != %d'% (response.status,target.pass_result) 
+                    trace += '\n%s Response [Fail] reason: target status:%d != %d'% (datetime.datetime.now(),response.status,target.pass_result) 
                 update_target_status(target,
                     STATUS_PASS if response.status == target.pass_result else STATUS_FAIL,
                     response.reason if response.status == target.pass_result else ('target status:%d != %d' % (response.status,target.pass_result))) 
         except SystemExit, e:
             sys.exit(e)
         except socket.error as se:
-            trace += '\n[FAIL] reason: %s' % (str(se))
+            trace += '\n%s [FAIL] reason: %s' % (datetime.datetime.now(),str(se))
             update_target_status(target,STATUS_FAIL,str(se))
         except:
-            update_target_status(target,STATUS_FAIL,sys.exc_info()[0])
+            update_target_status(target,STATUS_FAIL,str(sys.exc_info()[0]))
 
         self.log_result(target)
 
         # notify
-        if notifiermodel != None: 
+        if self.notifiermodel != None: 
             notifier = SkyPunchNotifier(self.logger)
-            notifier.notify(target,notifiermodel,trace)
+            notifier.notify(target,self.notifiermodel,trace)
         else:
             print trace
         
@@ -163,12 +167,12 @@ class Puncher:
         self.targetmodel.commit()
 
     # find a target to punch
-    def punch(self,target,notifiermodel):
+    def punch(self,target):
         # if it is new, test it right away
         if target.status == STATUS_NEW:
-            self.punch_it_now(target,notifiermodel)
+            self.punch_it_now(target)
         # check if its time to test
         else:
             delta = datetime.datetime.now() - target.last_updated
             if delta.seconds > target.frequency:
-                self.punch_it_now(target,notifiermodel)
+                self.punch_it_now(target)
