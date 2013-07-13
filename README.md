@@ -1,22 +1,34 @@
-Skypunch  - Cloud Service Monitor
+Skypunch  - Cloud Service Monitoring System
 ========
 
-Background
+Introduction
 ----------
-Skypunch is a service monitoring service which allows for the monitoring of cloud services for their availability and uptime. Skypunch can be configured to monitor any REST service and inform a user to the availability, or lack of, based on configurable notification parameters.  Skypunch supports the ability to access any REST service using various HTTP(S) authentication methods including **built in support for Openstack Cloud Services**.
+Skypunch is a cloud service monitoring solution which allows for the monitoring of cloud services for their availability and performance. Skypunch can be configured to monitor any cloud service, public or private, and inform you regardning the availability, or lack of, based on configurable parameters.  Skypunch supports the ability to access any service using various HTTP(S) authentication methods including **built in support for Openstack Cloud Services**.
 
 
-Design
-------
-Skypunch runs as a system daemon using an SQL database for the definition of 'targets' to be monitored. Each target defined will be monitored at the defined REST URL and frequency. As each target is monitored, skypunch will log the result details to a log file ,update the SQL database with the results and inform a configurable user on the occurrence of an error or recovery.
+Monitoring all your services
+----------
+Skypunch is a system service using an SQL database for the definition of 'targets' to be monitored. Each target defined will be monitored at the defined URL and frequency. As each target is monitored, skypunch will log the result details to a log file,update the SQL database with the results and inform a configurable user on the occurrence of an error or recovery.
 
-Skypunch is comprised of the following main:<br><br>
-**Python based monitoring code**<br>
+Main Features
+-------------
+**Background monitoring of an unlimited number of services**<br>
+Skypunch runs as a system daemon which monitors as many cloud services you like. The services can be any service including public and private cloud services which can be hosted within any cloud.
+
+**Built in Openstack Smarts**<br>
+Skypunch has built in support for services which require Openstack Keystone tokens. Skypunch will automatically retrieve an Openstack Keystone token and use it with the target request.<br>
+
+**Detailed Failure Tracing**<br>
+When a service fails the monitoring test, skypunch provides a detailed trace of what worked and what failed. The intent is to assist the operator with actionable information rather than just say it does not work!<br>
+
+**Flexible Service Configuration**<br>
+Skypunch allows a target to be defined in a flexible manner including which protocol it supports, the specific HTTP method to be used, the response required and which authentication scheme should be used. Together, these allow for the monitoring of a wide range of services.<br>
+
+**100% Python based**<br>
 Skypunch is implemented in Python and uses a number of Python libraries including sqlalchemy for mysql access.<br>
 
 **MySQL database for defined 'targets' and 'notifiers'**<br>
-SQL tables for targets to be monitored and users to be notified are defined within the mysql database.
-The most recent monitored status and empirical statistics are updated with each target request.<br>
+SQL tables for targets to be monitored and users to be notified are defined within the mysql database. In addition, the tables model various statistics for each monitored target.<br>
 
 **Configuration file for main runtime configuration**<br>
 A configuration file allows for global run time settings.<br>
@@ -24,36 +36,32 @@ A configuration file allows for global run time settings.<br>
 **Log file for run time information**<br>
 A log file captures all request details.<br>
 
-**Built in support for Openstack Keystone authentication**<br>
-Skypunch can monitor any HTTP(S) REST service including Openstack services which require Openstack Keystone tokens.
-Skypunch will automatically retrieve an Openstack Keystone token and use it with the target request.<br>
 
 **Simple Command Line Interface (CLI)**<br>
 A CLI allows interfacing with the skypunch daemon to list targets, notifiers and their current state<br> 
 
-Skypunch Database
+The Skypunch Data Model
 -----------------
 At the core of skypunch are the database tables which the skypunch daeamon uses to monitor targets and inform users. 
-The details for these tables can be found in *skypunch.sql* <br><br>
+The details for these tables can be found in [skypunch.sql](https://github.com/pemellquist/skypunch/blob/master/sql/skypunch.sql) <br><br>
 
-**targets Table** <br>
-Each row in the table defines details of how to monitor each target including:
+**Targets Table** <br>
+The targets table models each service to be monitored and collects performance statistics over time.
 * URL of system to be monitored (HTTP or HTTPS)
 * HTTP Method to use (GET,PUT,POST,DELETE,HEAD)
 * The type of HTTP authentication to use (NONE, BASIC, OPENSTACK)
 * The frequency of monitoring  (as frequent as once a second)
 * A timeout to fail on 
 * The expected result for 'success' (HTTP status code e.g. 200)
-    
-Each row in the table also defines results for each target
 * The last status (PASS, FAIL)
 * Timestamp of last request 
 * A detailed description of a failure (if present)
 * Statistics on success and failures (counters)
+* Is the target enabled to be used?
 
-**notifiers Table** <br>
-Each row within the notifier table defines someone to be notified upon a failure or success.
-* The type of notification (SMTP, Tweet, RSS)
+**Notifiers Table** <br>
+The notifiers table models who should be notified upon key skypunch events (failure or success).
+* The type of notification (SMTP currently is only supported)
 * Notification specific parameters (e.g. email address and parameters) 
 
 
@@ -63,40 +71,42 @@ Installing Skypunch
 In order to run skypunch, you will need to install the code and prerequisite libraries.
 The following instructions define how to install everything on a single system. These instructions can be modified as needed for other setups. These instructions assume a linux Ubuntu system but can be changed to run on other operating systems. 
 
+Note! The current installation is a manual process. The plan is make this a debian package using a python package install. For now, the steps below are required.
+
 **1 - Install and setup mysql**<br>
-Note! the default skypunch.config file defines the mysql connection parameters 
+Note! the default [skypunch.config](https://github.com/pemellquist/skypunch/blob/master/skypunch.config ) file defines the mysql connection parameters 
 including user, password and mysql server address. The default assumes root:root and localhost, change as needed. <br>
 
-*$sudo apt-get install mysql-server*
+    $sudo apt-get install mysql-server
     
 **2 - Install Python**<br>
 The current code has been tested on Python 2.7.3.<br>
     
-*$sudo apt-get install python*    
+    $sudo apt-get install python
 
 **3 - Install skypunch from github**<br>
 The current packaging is full source code.<br>
     
-*$git clone https://github.com/pemellquist/skypunch.git your_skypunch_directory*
+    $git clone https://github.com/pemellquist/skypunch.git <your_skypunch_directory>
 
 **4 - Install dependent libraries**<br>
     
-*$sudo apt-get install python-pip python-dev build-essential*<br>
+    $sudo apt-get install python-pip python-dev build-essential
     
-*$sudo pip install python-daemon*<br>
+    $sudo pip install python-daemon
     
-*$sudo apt-get install mysql-server*<br>
+    $sudo apt-get install mysql-server
     
-*$sudo pip install SQLAlchemy*<br>
+    $sudo pip install SQLAlchemy
     
-*$sudo pip install mysql-connector-python*<br>
+    $sudo pip install mysql-connector-python
 
 
 **5 - Load skypunch SQL schema into mySQL**<br>
 
 Loading the skypunch schema into mysql will allow defining targets and notifiers.<br>
     
-*$mysql -u youruser -p < your_skypunch_directory/sql/skpunch.sql* <br>
+    $mysql -u youruser -p < <your_skypunch_directory>/sql/skpunch.sql
 
 After doing this step you may also go into mysql and poke around. You should be able to see the
 skypunch database and two tables ( use skypunch; describe targets; describe notifiers; )
@@ -104,94 +114,122 @@ skypunch database and two tables ( use skypunch; describe targets; describe noti
 
 **6 - Define targets and notifiers**<br>
 
-Targets and notifiers can be defined in a provided config file and loaded into the
-database. An example file is provided, *data.sql*, and can be changed as needed.
+Targets and notifiers can be defined in a config file and loaded into the
+database. You can also edit the mysql database directly as needed. 
+An example target and notifier definition file is provided, [data.sql](https://github.com/pemellquist/skypunch/blob/master/sql/data.sql), and can be changed as needed. Add all the targets and notifiers needed in your own copy of this file.
     
-*$mysql -u youruser -p < your_skypunch_directory/sql/data.sql*
+    $mysql -u youruser -p < <your_skypunch_directory>/sql/data.sql
 
 
 Running Skypunch
 ----------------
+Once skypunch is installed a CLI allows controlling the skypunch daemon and querying the database for targets, notifiers. The CLI also allows testing targets manually and enabling or disabling targets.
 
 
-**1 - list skypunch options**<br>
+**1 - Skypunch CLI options**<br>
 
-*$python your_skypunch_directory/skypunch.py*<br>
-usage: skypunch start | stop | list<br>
+    $python skypunch/skypunch.py
+    version: 0.3.0
+    usage: skypunch start | stop  | targets [id] [enable | disable | test] | notifiers [id] [enable | disable]
 
-**2 - start skypunch**<br>
+**2 - Starting skypunch**<br>
 
-*$python your_skypunch_directory/skypunch.py start*
-started with pid 8100<br>
-starting skypunch ....<br>
+    $python your_skypunch_directory/skypunch.py start
+    started with pid 8100
+    starting skypunch ....
+    
+Starting skypunch will kick of a daemon process running which will read in [skypunch.config](https://github.com/pemellquist/skypunch/blob/master/skypunch.config ) and start the monitoring based on targets and notifiers defined in the mysql database.
+Tailing out skypunch.log is an easy way to see that it is running properly.
 
-**3 - list currently loaded targets**<br>
+    $tail -f skypunch.log
+    ..
+    2013-07-11 06:10:57,053 INFO [1] HP Cloud Dot COM               GET https://www.hpcloud.com PASS (OK)
+    ..
+    
+**3 - Stopping skypunch**<br>
 
-*$python your_skypunch_directory/skypunch.py list*
+    $python your_skypunch_directory/skypunch.py stop
+    shutting down skypunch ...
+    
 
-    +----+----------------------------+--------+---------------------+
-    | ID | Name                       | Status | LastUpdated         |
-    +----+----------------------------+--------+---------------------+
-    | 1  | Google home page           | PASS   | 2013-06-17 23:06:13 |
-    | 2  | HP home page               | PASS   | 2013-06-17 23:06:13 |
-    | 3  | GitHub Skypunch            | PASS   | 2013-06-17 23:06:13 |
-    | 4  | GitHub Skypunch (bad)      | FAIL   | 2013-06-17 23:06:12 |
-    | 6  | Localhost nginx test       | PASS   | 2013-06-17 23:06:13 |
-    +----+----------------------------+--------+---------------------+
+**4 - List currently loaded targets**<br>
+You can list out all currently loaded targets in the database used by skypunch with a summary status using the 'targets' option.
 
-**4 - list details about a specific target**<br>
+    $python your_skypunch_directory/skypunch.py targets
 
-*$python skypunch/skypunch.py list 1*
+    +----+------------------------------+--------+---------------------+---------+------------+------------+
+    | ID | Name                         | Status | LastUpdated         | Enabled | Pass Count | Fail Count |
+    +----+------------------------------+--------+---------------------+---------+------------+------------+
+    | 1  | Google Dot COM               | PASS   | 2013-07-11 06:17:54 | Yes     | 12996      | 0          |
+    | 2  | Openstack Block Storage      | PASS   | 2013-07-11 06:17:49 | Yes     | 12984      | 2          |
+    | 3  | Openstack CDN Region         | PASS   | 2013-07-11 06:17:50 | Yes     | 12972      | 1          |
+    | 4  | Openstack Compute Region A   | PASS   | 2013-07-11 06:17:51 | Yes     | 12970      | 2          |
+    | 5  | Openstack Compute Region B   | PASS   | 2013-07-11 06:17:51 | Yes     | 12965      | 4          |
+    | 6  | Openstack Compute Region C   | PASS   | 2013-07-11 06:17:52 | Yes     | 12969      | 0          |
+    | 7  | Openstack Object Storage     | PASS   | 2013-07-11 06:17:53 | Yes     | 12959      | 1          |
+    | 8  | Localhost nginx test         | PASS   | 2013-07-11 06:17:53 | Yes     | 11864      | 1103       |
+    +----+------------------------------+--------+---------------------+---------+------------+------------+
 
-    +---------------------+-----------------------+
-    | ID                  | 1                     |
-    +---------------------+-----------------------+
-    | Name                | Google home page      |
-    +---------------------+-----------------------+
-    | Status              | PASS                  |
-    +---------------------+-----------------------+
-    | Status Description  | OK                    |
-    +---------------------+-----------------------+
-    | Last Updated        | 2013-06-17 23:06:55   |
-    +---------------------+-----------------------+
-    | Target URL          | http://www.google.com |
-    +---------------------+-----------------------+
-    | Target Method       | GET                   |
-    +---------------------+-----------------------+
-    | Authentication      | NONE                  |
-    +---------------------+-----------------------+
-    | Expected Value      | 200                   |
-    +---------------------+-----------------------+
-    | Frequency (sec)     | 10                    |
-    +---------------------+-----------------------+
-    | Timeout (sec)       | 10                    |
-    +---------------------+-----------------------+
-    | Pass Count          | 7900                  |
-    +---------------------+-----------------------+
-    | Fail Count          | 0                     |
-    +---------------------+-----------------------+
-    | 200 Status Count    | 7900                  |
-    +---------------------+-----------------------+
-    | 300 Status Count    | 0                     |
-    +---------------------+-----------------------+
-    | 400 Status Count    | 0                     |
-    +---------------------+-----------------------+
-    | 500 Status Count    | 0                     |
-    +---------------------+-----------------------+
-    | Network Fail Count  | 0                     |
-    +---------------------+-----------------------+
-    | Repeated Fail Count | 0                     |
-    +---------------------+-----------------------+
+This summary view shows all the targets with the status of the last monitor, if the target is enabled, and pass / fail counts.
+
+**5 - List details about a specific target**<br>
+Using the target Id, you can query for complete details for any defined target.
+
+    $python skypunch/skypunch.py targets 1
+
+    +---------------------+-------------------------+
+    | ID                  | 1                       |
+    +---------------------+-------------------------+
+    | Name                | Google Dot COM          |
+    +---------------------+-------------------------+
+    | Status              | PASS                    |
+    +---------------------+-------------------------+
+    | Enabled             | Yes                     |
+    +---------------------+-------------------------+
+    | Status Description  | OK                      |
+    +---------------------+-------------------------+
+    | Last Updated        | 2013-07-11 06:28:39     |
+    +---------------------+-------------------------+
+    | Target URL          | https://www.google.com  |
+    +---------------------+-------------------------+
+    | Target Method       | GET                     |
+    +---------------------+-------------------------+
+    | Authentication      | NONE                    |
+    +---------------------+-------------------------+
+    | Expected Value      | 200                     |
+    +---------------------+-------------------------+
+    | Frequency (sec)     | 10                      |
+    +---------------------+-------------------------+
+    | Timeout (sec)       | 10                      |
+    +---------------------+-------------------------+
+    | Pass Count          | 13048                   |
+    +---------------------+-------------------------+
+    | Fail Count          | 0                       |
+    +---------------------+-------------------------+
+    | 200 Status Count    | 13048                   |
+    +---------------------+-------------------------+
+    | 300 Status Count    | 0                       |
+    +---------------------+-------------------------+
+    | 400 Status Count    | 0                       |
+    +---------------------+-------------------------+
+    | 500 Status Count    | 0                       |
+    +---------------------+-------------------------+
+    | Network Fail Count  | 0                       |
+    +---------------------+-------------------------+
+    | Repeated Fail Count | 0                       |
+    +---------------------+-------------------------+
+
  
-**5 - tailing the log file shows current monitoring**<br>
+**6 - Enable or disable a target**<br>
+There may be times when you would like to disable the monitoring of a target but leave it within the database to be enabled in the future.
+The disable option will stop the skypunch daemon from making subsequent monitor calls to this target.
 
-*$tail -f skypunch.log*
 
-    2013-06-18 04:07:52,432 INFO  [5] GitHub LBaaS (basic authn)     GET https://github.com/LBaaS PASS (OK)
-    2013-06-18 04:07:52,564 INFO  [7] Localhost nginx test           GET http://localhost PASS (OK)
-    2013-06-18 04:07:52,903 INFO  [1] Google home page               GET http://www.google.com PASS (OK)
-    2013-06-18 04:07:53,064 INFO  [2] HP home page                   GET http://www.hp.com PASS (OK)
-    2013-06-18 04:07:53,413 INFO  [3] GitHub LBaaS                   GET https://github.com/LBaaS PASS (OK)
+**7 - Test a target right now in manual mode**<br>
+The test option from the CLI allows testing an existing target right away independent from the background monitoring and showing the results within stdout. This may prove useful when trying to diagnose an issue on the fly.
+
+**8 - Notifier CLI stuff**<br>
+
 
 
 Defining Targets to be Monitored
