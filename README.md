@@ -98,6 +98,8 @@ The current packaging is full source code.<br>
     $sudo pip install SQLAlchemy
     
     $sudo pip install mysql-connector-python
+    
+    $sudo apt-get install python-prettytable
 
 
 **5 - Load skypunch SQL schema into mySQL**<br>
