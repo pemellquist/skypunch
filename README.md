@@ -95,8 +95,6 @@ The current packaging is full source code.<br>
     
     $sudo pip install python-daemon
     
-    $sudo apt-get install mysql-server
-    
     $sudo pip install SQLAlchemy
     
     $sudo pip install mysql-connector-python
