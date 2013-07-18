@@ -312,6 +312,10 @@ res the Skypunch target to use authn = 'BASIC'. This requires setting the authn 
 In this example, an openstack service exists which requires usage of an Openstack Keystone token. The Keystone endpoint
 and keystone credentials are required to be specified. Skypunch will automatically log into the Keystone Auth service, get a token
  and use it against the specified service endpoint.
+
+    # create an Openstack target
+    INSERT INTO targets
+    VALUES (0,'Openstack Service','0','NEW',NULL,'','NEW','https://openstack.service.url','GET','OPENSTACK','user=xxxx,password=yyyyy,osauthendpoint=OPENSTACK_KEYSTONE_ENDPOINT,tenantid=ZZZZZZZZZZ',200,10,10,0,0,0,0,0,0,0,0,1);
  
  
 
