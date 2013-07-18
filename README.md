@@ -285,7 +285,7 @@ The CLI allows listing details about a specific notifier including pass and fail
 Defining Targets to be Monitored
 --------------------------------
 Defining a target to be monitored requires the insertion of a row into the 'targets' database. The database schema can
-be found in  [data.sql](https://github.com/pemellquist/skypunch/blob/master/sql/data.sql)<br>
+be found in  [skypunch.sql](https://github.com/pemellquist/skypunch/blob/master/sql/skypunch.sql)<br>
 
 **Simple Service Monitoring**<br>
 Simple example to monitor www.google.com. Google always stays up so this is a good example of a service which will either always return a 200 or report a network issue if the network cannot access Google.
