@@ -224,9 +224,31 @@ Using the target Id, you can query for complete details for any defined target.
 There may be times when you would like to disable the monitoring of a target but leave it within the database to be enabled in the future.
 The disable option will stop the skypunch daemon from making subsequent monitor calls to this target.
 
+    $python skypunch/skypunch.py
+    version: 0.3.0
+    usage: skypunch start | stop  | targets [id] [enable | disable | test] | notifiers [id] [enable | disable]
+    
+    $python skypunch/skypunch.py targets 8 disable
+    Target: Localhost nginx test has been Disabled
+    
+    $python skypunch/skypunch.py targets 8 enable
+    Target: Localhost nginx test has been Enabled
+
 
 **7 - Test a target right now in manual mode**<br>
-The test option from the CLI allows testing an existing target right away independent from the background monitoring and showing the results within stdout. This may prove useful when trying to diagnose an issue on the fly.
+The CLI allows testing an existing target independent from the background monitoring and showing the results within stdout. This may prove useful when trying to diagnose an issue on the fly. The 'test' option will test the specified target and display all details of the test.
+
+
+    $ python skypunch/skypunch.py targets 8 test
+    [8] Localhost nginx test           GET http://localhost PASS (OK)
+    2013-07-13 04:44:25.113623 Connecting to http://localhost ....
+    2013-07-13 04:44:25.118338 Connection    [OK]
+    2013-07-13 04:44:25.118354 Sending target request string ...
+    2013-07-13 04:44:25.118388 Sent [OK]
+    2013-07-13 04:44:25.118591 Sending GET request  [OK]
+    2013-07-13 04:44:25.119201 Reading response [OK]
+    2013-07-13 04:44:25.119219 Response [OK]
+
 
 **8 - Notifier CLI stuff**<br>
 
