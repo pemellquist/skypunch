@@ -250,7 +250,35 @@ The CLI allows testing an existing target independent from the background monito
     2013-07-13 04:44:25.119219 Response [OK]
 
 
-**8 - Notifier CLI stuff**<br>
+**8 - List details about all Notifiers**<br>
+The CLI allows listing all currently loaded notifiers.
+
+    $ python skypunch/skypunch.py notifiers
+    +----+--------------+---------+------+-------------------------+
+    | ID | Name         | Enabled | Type | Address                 |
+    +----+--------------+---------+------+-------------------------+
+    | 1  | Operations   | Yes     | SMTP | openstack-ops@gmail.com |
+    +----+--------------+---------+------+-------------------------+
+
+**9 - List details about a specific notifier**<br>
+The CLI allows listing details about a specific notifier including pass and fail counts.
+
+    $ python skypunch/skypunch.py notifiers 1
+    +------------+-------------------------+
+    | ID         | 1                       |
+    +------------+-------------------------+
+    | Name       | Operations              |
+    +------------+-------------------------+
+    | Enabled    | Yes                     |
+    +------------+-------------------------+
+    | Type       | SMTP                    |
+    +------------+-------------------------+
+    | Address    | openstack-ops@gmail.com |
+    +------------+-------------------------+
+    | Pass Count | 257                     |
+    +------------+-------------------------+
+    | Fail Count | 27                      |
+    +------------+-------------------------+
 
 
 
